@@ -1,9 +1,11 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useState } from 'react';
 import type { HTMLAttributes, CSSProperties } from 'react';
+import EditPictureCard from './EditPictureCard';
+import ReactDOM from 'react-dom';
 
 export type PictureCardProps = HTMLAttributes<HTMLDivElement> & {
     id: string;
-    imgPath?: string;
+    imgPath: string;
     imgNumberInAlbum?: string;
     imgTitle?: string;
     imgDescription?: string;
@@ -17,6 +19,17 @@ const PictureCard = forwardRef<HTMLDivElement, PictureCardProps>(({ id, imgPath,
     // const handleEdit = () => {
     //     setEditing(!editing);
     // }
+
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+    const openPopup = () => {
+        console.log("openPopup");
+        setIsPopupOpen(true);
+      };
+
+    const closePopup = () => {
+        setIsPopupOpen(false);
+    };
     
     const inlineStyles: CSSProperties = {
         width: "auto",
@@ -65,11 +78,14 @@ const PictureCard = forwardRef<HTMLDivElement, PictureCardProps>(({ id, imgPath,
         height: "30px",
         resize: "both",
         cursor: "pointer",
-        backgroundColor: "transparent",
+        backgroundColor: "black",
+        color: "white",
         border: "none",
+        borderRadius: "6px",
         margin: "0",
         padding: "0",
         alignSelf: "bottom",
+        alignContent: "bottom"
     };
 
     return <div ref={ref} style={inlineStyles} {...props}>
@@ -80,12 +96,18 @@ const PictureCard = forwardRef<HTMLDivElement, PictureCardProps>(({ id, imgPath,
             <h3>{ imgTitle }</h3>
             <p>{imgDescription}</p>
         </div>
-        <button style={buttonStyles}>
+        <button onClick={openPopup} style={buttonStyles}>
+            
             {/* <Edit/> */}
             Edit
         </button>
         </div>
-    </div>;
+        {isPopupOpen && (
+            ReactDOM.createPortal(
+                <EditPictureCard onclose={closePopup} imgPath={imgPath} imgDescription={imgDescription} imgTitle={imgTitle}/>, document.body))
+        }
+    </div>
+    ;
 });
 
 export default PictureCard;

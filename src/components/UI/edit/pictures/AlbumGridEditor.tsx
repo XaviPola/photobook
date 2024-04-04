@@ -18,8 +18,16 @@ import PictureCard from '@components/UI/edit/pictures/PictureCard.tsx';
 const AlbumGridEditor: FC = () => {
     const [items, setItems] = useState(Array.from({ length: 8 }, (_, i) => (i + 1).toString()));
     const [activeId, setActiveId] = useState<string | null>(null);
-    const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
-
+    const sensors = useSensors(useSensor(MouseSensor, {
+        activationConstraint: {
+          distance: 8,
+        },
+      }), useSensor(TouchSensor, {
+        activationConstraint: {
+          distance: 8,
+        },
+      }));
+      
     const handleDragStart = useCallback((event: DragStartEvent) => {
         setActiveId(event.active.id.toString());
     }, []);
@@ -55,10 +63,11 @@ const AlbumGridEditor: FC = () => {
                         <SortablePictureCard key={id} id={id} imgPath={`/demo_images/${id}.png`} imgNumberInAlbum={(index + 1).toString()}/>
                     ))}
                 </Grid>
+                <DragOverlay adjustScale style={{ transformOrigin: '0 0 ' }}>
+                    {activeId ? <PictureCard id={activeId} imgPath={`/demo_images/${activeId}.png`} isDragging /> : null}
+                </DragOverlay>
             </SortableContext>
-            <DragOverlay adjustScale style={{ transformOrigin: '0 0 ' }}>
-                {activeId ? <PictureCard id={activeId} isDragging /> : null}
-            </DragOverlay>
+            
         </DndContext>
     );
 };
