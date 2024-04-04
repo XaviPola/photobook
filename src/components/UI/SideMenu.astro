@@ -1,0 +1,114 @@
+---
+import type { MenuSection } from "@types";
+import Lens from "@components/UI/icons/Lens.astro";
+import Book from "@components/UI/icons/Book.astro";
+import Pictures from "@components/UI/icons/Pictures.astro";
+
+let menuSections: MenuSection[] = ["pictures", "cover", "about"];
+
+let menuIcons = {
+  "about": Lens,
+  "cover": Book,
+  "pictures": Pictures,
+};
+
+const albumTitle: string = "Album Title";
+---
+
+<aside>
+    <h2>
+        My Albums
+    </h2>
+
+    <ul>    
+        <h3>
+            {albumTitle}
+        </h3> 
+        {menuSections.map((section) => {
+            let Icon = menuIcons[section];
+            return (
+            <li>
+                <button>
+                    <div class="icon-container">
+                        <Icon />
+                    </div>
+                    <span>{section}</span>                    
+                </button>
+            </li>
+        )})}
+    </ul>
+
+</aside>
+
+<style>
+    aside {
+        width: 225px;
+        height: 100%;
+        padding-right: 24px;
+        display: inline-block;
+        gap: 12px;
+        justify-content: space-between;
+        border-right: 1px solid #E5E5E5;
+    }
+
+    @media (max-width: 800px) {
+        aside {
+            display: none;
+        }
+        
+    }
+
+    aside h2 {
+        font-size: 32px;
+        font-weight: 300;
+        margin: 0;
+        gap: 18px;
+    }
+
+    aside h3 {
+        font-size: 24px;
+        font-weight: 500;
+        margin: 0;
+    }
+
+    button {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        border: none;
+        background: none;
+        padding: 6px;
+        border-radius: 6px;
+    }
+
+    button:hover {
+        background-color: #F5F5F5;
+    }
+
+    ul {
+        position: sticky;
+        top: 12px;
+        list-style-type: none;
+        padding: 12px 0 0 24px;
+    }
+    
+    li {
+        gap: 18px;
+    }
+
+    button span {
+        text-transform: capitalize;
+        font-family: "Roboto", sans-serif;
+        font-style: normal;
+        font-weight: 300;
+        font-size: 20px;
+    }
+
+    .icon-container {
+        width: 24px;
+        height: 24px;
+        resize: both;
+    }
+
+</style>
