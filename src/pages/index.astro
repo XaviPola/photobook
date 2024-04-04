@@ -1,0 +1,27 @@
+---
+import Layout from '@layouts/Layout.astro';
+import SideMenu from '@components/UI/SideMenu.astro';
+import Header from '@components/UI/Header.astro';
+import AlbumGridEditor from '@components/UI/edit/pictures/AlbumGridEditor.tsx';
+
+
+---
+
+<Layout title="PhotoBook, your electronic photo project.">
+    <Header />
+    <div class="container">
+        <SideMenu />
+        <AlbumGridEditor client:visible/>
+    </div>
+</Layout>
+
+<style>
+    .container {
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-top: 20px;
+    }
+</style>

@@ -1,0 +1,67 @@
+---
+interface Props {
+	title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content="Astro description" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/logo4.png" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+		<style>
+			@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap')
+			</style>
+		
+	</head>
+	<body>
+		<slot />
+	</body>
+</html>
+<style is:global>
+	html, aside {
+		height: 100%;
+	}
+
+	body {
+		font-family: 'Roboto', sans-serif;
+		margin: 0;
+		padding: 24px;
+		height: 100vh;
+	}
+
+	a {
+		text-decoration: none;
+		color: inherit;
+	}
+
+	button {
+		text-decoration: none;
+	}
+
+
+    h1 h2 h3 {
+        font-family: "Roboto", sans-serif;
+        font-weight: 700;
+        margin: 0;
+    }
+
+    h1 {
+        font-size: 36px;
+    }
+
+    h2 {
+        font-size: 24px;
+    }
+
+    h3 {
+        font-size: 18px;
+    }
+
+</style>
