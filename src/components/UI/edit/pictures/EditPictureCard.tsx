@@ -3,13 +3,18 @@ import type { HTMLAttributes, CSSProperties } from 'react';
 import Button from '@components/UI/edit/pictures/Button.tsx';
 
 export type EditPictureCardProps = HTMLAttributes<HTMLDivElement> & {
+    setTitle: (title: string) => void;
+    setDescription: (description: string) => void;
     onclose: () => void;
     imgPath: string;
     imgTitle?: string;
     imgDescription?: string;
 };
 
-const EditPictureCard =  forwardRef<HTMLDivElement, EditPictureCardProps> (({imgTitle, imgDescription, imgPath, onclose}, ref) => {
+const EditPictureCard =  forwardRef<HTMLDivElement, EditPictureCardProps> (
+    (
+        {imgTitle, imgDescription, imgPath, onclose, setTitle, setDescription}, ref
+        ) => {
 
     const inlineContainerStyles: CSSProperties = {
         maxWidth: "75vh",
@@ -56,7 +61,7 @@ const EditPictureCard =  forwardRef<HTMLDivElement, EditPictureCardProps> (({img
         height: "80%",
         borderRadius: "8px",
         border: "1px solid rgba(0, 0, 0, 0.2)",
-        padding: "10px 0",
+        padding: "10px 8px",
         margin: "10px",
     };
 
@@ -69,18 +74,31 @@ const EditPictureCard =  forwardRef<HTMLDivElement, EditPictureCardProps> (({img
         background: "rgba(50,50,50,0.9)"
     };
 
+    const onSave = () => {
+        let title = document.getElementsByClassName("titleInput")[0].value;
+        let description = document.getElementsByClassName("descriptionInput")[0].value;
+        setTitle(title);
+        setDescription(description)
+        onclose();
+    }
+
+    const defaultTitle = "Title";
+    const onDisplayTitle = imgTitle ? imgTitle : defaultTitle;
+    const defaultDescription = "Description";
+    const onDisplayDescription = imgDescription ? imgDescription : defaultDescription;
+
     return (
         <div style={inlineBGStyles}>
             <div style={inlineContainerStyles}>
             <img src={imgPath} style={inlineImgStyles}/>
             <div style={contextStyles}>
                 <div style={contextTextStyles}>
-                    <input style={inlineInputStyles}>{ imgTitle }</input>
+                    <input className="titleInput" style={inlineInputStyles} defaultValue={onDisplayTitle}/>
 
-                    <input style={inlineInputStyles}>{imgDescription}</input>
+                    <input className="descriptionInput" style={inlineInputStyles} defaultValue={onDisplayDescription}/>
                 </div>
-                <Button copy="Save" onClick={onclose}/>
-                    
+                <Button copy="Save" onClick={onSave}/>
+                <Button copy="Close" onClick={onclose}/>
             </div>
         </div>
     </div>
