@@ -1,9 +1,12 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useState } from 'react';
 import type { HTMLAttributes, CSSProperties } from 'react';
+import EditPictureCard from './EditPictureCard';
+import ReactDOM from 'react-dom';
+import Button from '@components/UI/edit/pictures/Button';
 
 export type PictureCardProps = HTMLAttributes<HTMLDivElement> & {
     id: string;
-    imgPath?: string;
+    imgPath: string;
     imgNumberInAlbum?: string;
     imgTitle?: string;
     imgDescription?: string;
@@ -12,15 +15,23 @@ export type PictureCardProps = HTMLAttributes<HTMLDivElement> & {
 };
 
 const PictureCard = forwardRef<HTMLDivElement, PictureCardProps>(({ id, imgPath, imgTitle, imgNumberInAlbum, imgDescription, withOpacity, isDragging, style, ...props }, ref) => {
-    // const [editing, setEditing] = React.useState(false);
 
-    // const handleEdit = () => {
-    //     setEditing(!editing);
-    // }
+    const [title, setTitle] = useState<string | undefined >(imgTitle ?? undefined);
+    const [description, setDescription] = useState<string | undefined >(imgDescription ?? undefined );
+
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+    const openPopup = () => {
+        setIsPopupOpen(true);
+      };
+
+    const closePopup = () => {
+        setIsPopupOpen(false);
+    };
     
     const inlineStyles: CSSProperties = {
         width: "auto",
-        height: "auto",
+        aspectRatio: "1",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -50,6 +61,7 @@ const PictureCard = forwardRef<HTMLDivElement, PictureCardProps>(({ id, imgPath,
         paddingTop: "10px",
         width: "100%",
         height: "auto",
+        gap: "6px",
     };
 
     const contextTextStyles: CSSProperties = {
@@ -58,34 +70,43 @@ const PictureCard = forwardRef<HTMLDivElement, PictureCardProps>(({ id, imgPath,
         justifyContent: "space-between",
         width: "80%",
         height: "100%",
+        gap: "10px",
     };
 
-    const buttonStyles: CSSProperties = {
-        width: "30px",
-        height: "30px",
-        resize: "both",
-        cursor: "pointer",
-        backgroundColor: "transparent",
-        border: "none",
+    const inlineTextStyles: CSSProperties = {
         margin: "0",
-        padding: "0",
-        alignSelf: "bottom",
+        minHeight: "21px",
+        whiteSpace: "nowrap",
+        textOverflow: "ellipsis",
+        overflow: "hidden",
     };
 
     return <div ref={ref} style={inlineStyles} {...props}>
         <img src={imgPath} style={inlineImgStyles}/>
-        <h2>{ imgNumberInAlbum }</h2>
+        <h2 style={inlineTextStyles}>{ imgNumberInAlbum }</h2>
         <div style={contextStyles}>
         <div style={contextTextStyles}>
-            <h3>{ imgTitle }</h3>
-            <p>{imgDescription}</p>
+            <h3 style={inlineTextStyles}>{ title ? `${title}` : "" }</h3>
+            <p style={inlineTextStyles}>{ description ? `${description}` : "" }</p>
         </div>
-        <button style={buttonStyles}>
-            {/* <Edit/> */}
-            Edit
-        </button>
+        <Button copy="Edit" onClick={openPopup}/>
         </div>
-    </div>;
+        {isPopupOpen && (
+            ReactDOM.createPortal(
+                <EditPictureCard 
+                    onclose={closePopup} 
+                    setTitle={setTitle} 
+                    setDescription={setDescription} 
+                    imgPath={imgPath} 
+                    imgDescription={description} 
+                    imgTitle={title}
+                />, 
+                document.body
+            )
+            )
+        }
+    </div>
+    ;
 });
 
 export default PictureCard;
