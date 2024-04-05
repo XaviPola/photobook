@@ -16,8 +16,8 @@ export type PictureCardProps = HTMLAttributes<HTMLDivElement> & {
 
 const PictureCard = forwardRef<HTMLDivElement, PictureCardProps>(({ id, imgPath, imgTitle, imgNumberInAlbum, imgDescription, withOpacity, isDragging, style, ...props }, ref) => {
 
-    const [title, setTitle] = useState<string>(imgTitle ?? ' ');
-    const [description, setDescription] = useState<string>(imgDescription ?? ' ');
+    const [title, setTitle] = useState<string | undefined >(imgTitle ?? undefined);
+    const [description, setDescription] = useState<string | undefined >(imgDescription ?? undefined );
 
     const [isPopupOpen, setIsPopupOpen] = useState(false);
 
@@ -73,20 +73,6 @@ const PictureCard = forwardRef<HTMLDivElement, PictureCardProps>(({ id, imgPath,
         gap: "10px",
     };
 
-    const buttonStyles: CSSProperties = {
-        width: "30px",
-        height: "30px",
-        cursor: "pointer",
-        backgroundColor: "black",
-        color: "white",
-        border: "none",
-        borderRadius: "6px",
-        margin: "0",
-        padding: "0",
-        alignSelf: "bottom",
-        alignContent: "bottom"
-    };
-
     const inlineTextStyles: CSSProperties = {
         margin: "0",
         minHeight: "21px",
@@ -100,8 +86,8 @@ const PictureCard = forwardRef<HTMLDivElement, PictureCardProps>(({ id, imgPath,
         <h2 style={inlineTextStyles}>{ imgNumberInAlbum }</h2>
         <div style={contextStyles}>
         <div style={contextTextStyles}>
-            <h3 style={inlineTextStyles}>{ title }</h3>
-            <p style={inlineTextStyles}>{ description }</p>
+            <h3 style={inlineTextStyles}>{ title ? `${title}` : "" }</h3>
+            <p style={inlineTextStyles}>{ description ? `${description}` : "" }</p>
         </div>
         <Button copy="Edit" onClick={openPopup}/>
         </div>

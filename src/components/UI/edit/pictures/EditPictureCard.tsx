@@ -75,17 +75,18 @@ const EditPictureCard =  forwardRef<HTMLDivElement, EditPictureCardProps> (
     };
 
     const onSave = () => {
-        let title = document.getElementsByClassName("titleInput")[0].value;
-        let description = document.getElementsByClassName("descriptionInput")[0].value;
+        let titleInput = document.getElementsByClassName("titleInput")[0] as HTMLInputElement;
+        let title = titleInput.value;
+        let descriptionInput = document.getElementsByClassName("descriptionInput")[0] as HTMLInputElement;
+        let description = descriptionInput.value;
+        
         setTitle(title);
         setDescription(description)
         onclose();
     }
 
-    const defaultTitle = "Title";
-    const onDisplayTitle = imgTitle ? imgTitle : defaultTitle;
-    const defaultDescription = "Description";
-    const onDisplayDescription = imgDescription ? imgDescription : defaultDescription;
+    const onDisplayTitle = imgTitle ? imgTitle : "";
+    const onDisplayDescription = imgDescription ? imgDescription : "";
 
     return (
         <div style={inlineBGStyles}>
@@ -93,9 +94,19 @@ const EditPictureCard =  forwardRef<HTMLDivElement, EditPictureCardProps> (
             <img src={imgPath} style={inlineImgStyles}/>
             <div style={contextStyles}>
                 <div style={contextTextStyles}>
-                    <input className="titleInput" style={inlineInputStyles} defaultValue={onDisplayTitle}/>
+                    <input 
+                        className="titleInput" 
+                        style={inlineInputStyles} 
+                        placeholder='[Optional] Title to display' 
+                        defaultValue={onDisplayTitle}
+                    />
 
-                    <input className="descriptionInput" style={inlineInputStyles} defaultValue={onDisplayDescription}/>
+                    <input 
+                        className="descriptionInput" 
+                        style={inlineInputStyles} 
+                        placeholder='[Optional] Description to display'
+                        defaultValue={onDisplayDescription}
+                    />
                 </div>
                 <Button copy="Save" onClick={onSave}/>
                 <Button copy="Close" onClick={onclose}/>
