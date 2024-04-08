@@ -2,7 +2,7 @@
 import Layout from '@layouts/Layout.astro';
 import SideMenu from '@components/UI/SideMenu.astro';
 import Header from '@components/UI/Header.astro';
-import AlbumGridEditor from '@components/UI/edit/pictures/AlbumGridEditor.tsx';
+import EditPictureBoard from '@components/UI/edit/pictures/Board.tsx';
 
 
 ---
@@ -11,7 +11,7 @@ import AlbumGridEditor from '@components/UI/edit/pictures/AlbumGridEditor.tsx';
     <Header />
     <div class="container">
         <SideMenu />
-        <AlbumGridEditor client:visible/>
+        <EditPictureBoard client:visible/>
     </div>
 </Layout>
 
