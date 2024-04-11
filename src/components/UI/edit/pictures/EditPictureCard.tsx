@@ -1,8 +1,11 @@
 import React, { useState, forwardRef } from 'react';
 import type { HTMLAttributes, CSSProperties } from 'react';
 import Button from '@components/UI/edit/pictures/Button.tsx';
+import type { Picture } from './Board';
 
 export type EditPictureCardProps = HTMLAttributes<HTMLDivElement> & {
+    id: string;
+    albumId: string;
     setTitle: (title: string) => void;
     setDescription: (description: string) => void;
     onclose: () => void;
@@ -13,7 +16,7 @@ export type EditPictureCardProps = HTMLAttributes<HTMLDivElement> & {
 
 const EditPictureCard =  forwardRef<HTMLDivElement, EditPictureCardProps> (
     (
-        {imgTitle, imgDescription, imgPath, onclose, setTitle, setDescription}, ref
+        {id, imgTitle, albumId, imgDescription, imgPath, onclose, setTitle, setDescription}, ref
         ) => {
 
     const inlineContainerStyles: CSSProperties = {
@@ -74,14 +77,35 @@ const EditPictureCard =  forwardRef<HTMLDivElement, EditPictureCardProps> (
         background: "rgba(50,50,50,0.9)"
     };
 
+    const handleUpdate = async (newTitle: string, newDescription: string) => {
+        const title = newTitle;
+        const description = newDescription;
+        try {
+          const response = await fetch(`http://localhost:1234/${albumId}/pictures/${id}`, {
+            method: 'PATCH',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ title, description }),
+          });
+          if (!response.ok) {
+            throw new Error('Failed to update picture');
+          }
+          console.log('Picture updated successfully');
+        } catch (error) {
+          console.error('Error updating picture:', error.message);
+        }
+      };
+
     const onSave = () => {
         let titleInput = document.getElementsByClassName("titleInput")[0] as HTMLInputElement;
         let title = titleInput.value;
         let descriptionInput = document.getElementsByClassName("descriptionInput")[0] as HTMLInputElement;
         let description = descriptionInput.value;
-        
+
         setTitle(title);
-        setDescription(description)
+        setDescription(description);
+        handleUpdate(title, description);
         onclose();
     }
 

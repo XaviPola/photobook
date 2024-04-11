@@ -15,33 +15,38 @@ import Grid from '@components/UI/edit/pictures/Grid.tsx';
 import SortablePictureCard from '@components/UI/edit/pictures/SortablePictureCard.tsx';
 import PictureCard from '@components/UI/edit/pictures/PictureCard.tsx';
 import type { Picture } from './Board';
+import axios from 'axios';
 
 
 interface AlbumGridEditorProps {
+    albumId: string;
     pictures: Picture[];
     setPictures: React.Dispatch<React.SetStateAction<never[]>>;
 }
 
-const AlbumGridEditor: FC<AlbumGridEditorProps> = (props) => {
-    const handleAllUpdate = async (pictures: Picture[]) => {
-        try {
-          const response = await fetch(`http://localhost:1234/myAlbum/pictures`, {
-            method: 'PUT',
-            headers: {
-              'Content-Type': 'application/json',
-              // You might need to include an Authorization header if required
-            },
-            body: JSON.stringify({ pictures }),
-          });
-          if (!response.ok) {
-            throw new Error('Failed to update picture');
-          }
-          // Handle successful update
-          console.log('Album pictures updated successfully');
+function AlbumGridEditor({albumId, pictures, setPictures}: AlbumGridEditorProps) {
+    const handleAllUpdate = async () => {
+        const uploadPromises = pictures.map( async (picture) => {
+            console.log('updating picture', picture);
+        try {   
+            const response = await axios.patch(`http://localhost:1234/albums/${albumId}`, picture, {
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+          
+            console.log('Album picture updated successfully', response.data);
         } catch (error) {
-          console.error('Error updating album picture:', error.message);
+            console.error('Error updating album picture:', error);
         }
-      };
+    });
+        try {
+            await Promise.all(uploadPromises);
+        } catch (error) {
+            console.error('Error updating images:', error);
+            alert('Some images failed to update. Please try again.');
+        }
+    };
 
     
     const [save, setSave] = useState(false);
@@ -49,12 +54,11 @@ const AlbumGridEditor: FC<AlbumGridEditorProps> = (props) => {
     useEffect(() => {
 
         if (save) {
-            handleAllUpdate(pictures);
+            handleAllUpdate();
             setSave(false);
         }
     }, [save]);
 
-    const {pictures, setPictures} = props;
     const itemIds = useMemo(() => pictures.map((picture) => picture.id.toString()), [pictures]);
 
     const [activeId, setActiveId] = useState<string | null>(null);
@@ -80,6 +84,10 @@ const AlbumGridEditor: FC<AlbumGridEditorProps> = (props) => {
         return pictures.findIndex((picture) => picture.id.toString() === pictureId);
     }
     
+    function getImgPathById(pictureId: string): string {
+        return pictures[getIndexById(pictureId)].path;
+    }
+
     const handleDragEnd = useCallback((event: DragEndEvent) => {
         const { active, over } = event;
 
@@ -94,7 +102,7 @@ const AlbumGridEditor: FC<AlbumGridEditorProps> = (props) => {
                 newPictures.splice(newIndex, 0, pictures[oldIndex]);
 
                 newPictures.forEach((picture, index) => {
-                    picture.order = index + 1;
+                    picture.orderInAlbum = index + 1;
                 });
                 
                 return newPictures;
@@ -120,11 +128,11 @@ const AlbumGridEditor: FC<AlbumGridEditorProps> = (props) => {
             <SortableContext items={itemIds} strategy={rectSortingStrategy}>
                 <Grid >
                     {pictures.map((picture, index) => (
-                        <SortablePictureCard key={picture.id} id={picture.id.toString()} imgDescription={picture.description} imgTitle={picture.title} imgPath={picture.url} imgNumberInAlbum={(index + 1).toString()}/>
+                        <SortablePictureCard albumId={albumId} key={picture.id} id={picture.id.toString()} imgDescription={picture.description} imgTitle={picture.title} imgPath={picture.path} imgNumberInAlbum={(index + 1).toString()}/>
                     ))}
                 </Grid>
                 <DragOverlay adjustScale style={{ transformOrigin: '0 0 ' }}>
-                    {activeId ? <PictureCard id={activeId} imgPath={`/demo_images/${activeId}.png`} isDragging /> : null}
+                    {activeId ? <PictureCard id={activeId} imgPath={getImgPathById(activeId)} albumId={albumId} isDragging /> : null}
                 </DragOverlay>
             </SortableContext>
             
