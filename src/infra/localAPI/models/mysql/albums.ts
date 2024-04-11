@@ -125,19 +125,48 @@ export class AlbumsModel {
 
     const clausulesString = Clausules.join(', ');
     sqlString += clausulesString + ` WHERE id = ?;`;
-    await albumsConnection.query<ResultSetHeader>(
-      sqlString,
-      [...queryValues, id]
-    );
-    // try {
-    //   await albumsConnection.query(
-    //     `UPDATE Albums
-    //       SET title = ?, author = ?, description = ?
-    //       WHERE id = ?;`,
-    //     [title, author, description, id]
-    //   );
-    // } catch (e) {
-    //   throw new Error('Error updating album');
-    // }
+    
+    try {
+      await albumsConnection.query<ResultSetHeader>(
+        sqlString,
+        [...queryValues, id]
+      );
+    } catch (e) {
+      throw new Error('Error updating album');
+    }
+  }
+
+  static updatePicture = async (albumId: number, pictureId: number, order?: number, title?: string, description?: string): Promise<void> => {
+    let sqlString = `UPDATE AlbumPictures SET `;
+    let Clausules = [];
+    let queryValues = [];
+    
+    if (order) {
+      Clausules.push(`order_in_album = ?`);
+      queryValues.push(order);
+    }
+
+    if (title) {
+      Clausules.push(`title = ?`);
+      queryValues.push(title);
+    }
+
+    if (description) {
+      Clausules.push(`description = ?`);
+      queryValues.push(description);
+    }
+
+    const clausulesString = Clausules.join(', ');
+    sqlString += clausulesString + ` WHERE album_id = ? AND picture_id = ?;`;
+    console.log(sqlString);
+    
+    try {
+      await albumsConnection.query<ResultSetHeader>(
+        sqlString,
+        [...queryValues, albumId, pictureId]
+      );
+    } catch (e) {
+      throw new Error('Error updating album picture');
+    }
   }
 }

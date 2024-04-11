@@ -25,18 +25,16 @@ export class AlbumController {
     }
 
     static async createAlbum(req: Request, res: Response): Promise<void> {
-        // try {
-        //     await AlbumsModel.create( req.body );
-        //     res.json({ success: true });
-        // } catch (err) {
-        //     res.status(500).json({ error: "Failed to create album", details: err });
-        // }
-        const title = req.body.title;
-        const author = req.body.author;
-        const description = req.body.description;
-        const userId = req.body.userId;
-    console.log(req.body);
-    await AlbumsModel.create( { title, author, description, userId } );
+        try {
+            const title = req.body.title;
+            const author = req.body.author; 
+            const description = req.body.description;
+            const userId = req.body.userId;
+            await AlbumsModel.create( { title, author, description, userId });
+            res.json({ success: true });
+        } catch (err) {
+            res.status(500).json({ error: "Failed to create album", details: err });
+        }
     }
 
     static async updateAlbum(req: Request, res: Response): Promise<void> {
@@ -46,32 +44,38 @@ export class AlbumController {
         const author = req.body.author;
         const description = req.body.description;
 
-        // Construct an object with non-empty properties
-        const albumData: { id: number; title?: string; author?: string; description?: string } = {
-            id,
-        };
+
 
         if (title === undefined && author === undefined && description === undefined) {
             res.status(400).json({ error: "No album data to update provided. At least one of title, author or description must be added in the body" });
             return;
         }
-        // Add title, author, and description to the albumData object if they are present
-        if (title !== undefined) {
-            albumData.title = title;
-        }
-        if (author !== undefined) {
-            albumData.author = author;
-        }
-        if (description !== undefined) {
-            albumData.description = description;
-        }
 
         await AlbumsModel.update({ id, title, author, description });
-        // try {
-        //     await AlbumsModel.update({ id: parseInt(albumId), title, author, description });
-        //     res.json({ success: true });
-        // } catch (err) {
-        //     res.status(500).json({ error: "Failed to update album", details: err });
-        // }
+        try {
+            await AlbumsModel.update({ id, title, author, description });
+            res.json({ success: true });
+        } catch (err) {
+            res.status(500).json({ error: "Failed to update album", details: err });
+        }
+    }
+
+    static async updatePicture(req: Request, res: Response): Promise<void> {
+        const { albumId } = req.params;
+        const pictureId = req.body.id;
+        const order = req.body.orderInAlbum;
+        const title = req.body.title;
+        const description = req.body.description;
+        
+        if (order === undefined && title === undefined && description === undefined) {
+            res.status(400).json({ error: "No picture data to update provided. At least one of order, title or description must be added in the body" });
+            return;
+        }
+        try {
+            await AlbumsModel.updatePicture( parseInt(albumId), pictureId, order, title, description );
+            res.json({ success: true });
+        } catch (err) {
+            res.status(500).json({ error: "Failed to update picture", details: err });
+        }
     }
 }

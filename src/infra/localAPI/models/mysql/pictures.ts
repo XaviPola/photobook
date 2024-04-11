@@ -47,23 +47,22 @@ export class PicturesModel {
     return pictures.length > 0 ? pictures : null;
   }
 
-  static async create(pictures: Picture[]): Promise<void> {
+  static async create({imgPath, albumId}: {imgPath: string, albumId: number}): Promise<void> {
     try {
-      for (const picture of pictures) {
-        const [result] = await picturesConnection.query<ResultSetHeader>(
-          `INSERT INTO Pictures (img_path) VALUES (?);`,
-          [picture.path]
+      const [result] = await picturesConnection.query<ResultSetHeader>(
+        `INSERT INTO Pictures (img_path) VALUES (?);`,
+        [imgPath]
         );
 
         const pictureId = result.insertId;
+        console.log('Picture ID:', pictureId);
 
         await picturesConnection.query<ResultSetHeader>(
-          `INSERT INTO AlbumPictures (album_id, picture_id, order_in_album, title, description)
-          VALUES (?, ?, ?, ?, ?);`,
-          [picture.albumId, pictureId, picture.orderInAlbum, picture.title, picture.description]
+          `INSERT INTO AlbumPictures (album_id, picture_id, order_in_album) VALUES (?, ?, 0);`,
+          [albumId, pictureId]
         );
       }
-    } catch (e) {
+    catch (e) {
       throw new Error('Error posting pictures to album');
     }
   }
