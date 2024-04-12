@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import type { ChangeEvent, DragEvent, Dispatch, SetStateAction } from 'react';
+import type { ChangeEvent, DragEvent, Dispatch, SetStateAction, CSSProperties } from 'react';
 import axios from 'axios';
+import Button from '@components/UI/edit/pictures/Button.tsx';
 
 interface ImagesUploaderProps {
     albumId: string;
@@ -11,6 +12,7 @@ interface ImagesUploaderProps {
 function ImagesUploader({ albumId, refresh, setRefresh }: ImagesUploaderProps) {
     const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
     const [previews, setPreviews] = useState<string[]>([]);
+    const [isDragging, setIsDragging] = useState(false);
 
     const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files.length > 0) {
@@ -61,37 +63,88 @@ function ImagesUploader({ albumId, refresh, setRefresh }: ImagesUploaderProps) {
         }
     };
 
+    const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
+        event.preventDefault();
+        setIsDragging(true);
+    };
+
+    const handleDragLeave = () => {
+        setIsDragging(false);
+    };
+
+    const inlineStyles: CSSProperties = {
+        width: '100%',
+        minHeight: '100vh',
+        height: 'auto',
+        borderRadius: "8px",
+        boxShadow: "0 0 20px rgba(0, 0, 0, 0.1)",
+        padding: "20px"
+    };
+
+    const inlineContainerStyles: CSSProperties = {
+        width: '100%',
+        minHeight: '100vh',
+        height: 'auto',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        border: isDragging ? "1px dashed rgba(0, 0, 0, 0.05)" : undefined,
+        borderRadius: "8px",
+        gap: "10px",
+        backgroundColor: isDragging ? '#f9f9f9' : '#ffffff',
+    };
+
+
+    const inlineGridImageStyle: CSSProperties = {
+        display: 'grid',
+        gridTemplateColumns: `repeat(auto-fill, minmax(10rem, 1fr))`,
+        gridTemplateRows: 'auto',
+        gridGap: 10,
+        width: '100%',
+        margin: '0 auto',
+        marginTop: '15px',
+        justifyContent: 'center',
+        alignItems: 'center',
+    };
+
+    const imgInlineStyles: CSSProperties = {
+        width: '100%',
+        aspectRatio: '1',
+        display: 'flex',
+        borderRadius: '8px',
+        boxShadow: '0 0 20px rgba(0, 0, 0, 0.1)',
+        objectFit: 'cover',
+        justifyContent: 'center',};
+
     return (
         <div
-            style={{
-                width: '100%',
-                height: '100vh',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                border: '2px dashed #aaa'
-            }}
+            style={inlineStyles}
             onDrop={handleDrop}
-            onDragOver={(e) => e.preventDefault()}
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
         >
-            <div style={{ textAlign: 'center' }}>
-                <input
-                    type="file"
-                    onChange={handleFileChange}
-                    style={{ display: 'none' }}
-                    multiple
-                />
-                <p>Drag & Drop images here</p>
+            <div style={inlineContainerStyles}>
+                <div style={{ textAlign: 'center', width: "100%" }}>
+                    <input
+                        type="file"
+                        onChange={handleFileChange}
+                        style={{ display: 'none' }}
+                        multiple
+                    />
+                    <p>Drag & Drop images here</p>
 
-                <button onClick={handleUpload}>Upload All</button>
-                {previews.length > 0 && (
-                    <div>
-                        <h3>Selected Images:</h3>
-                        {previews.map((preview, index) => (
-                            <img key={index} src={preview} alt={`Preview ${index}`} style={{ width: '100px', height: 'auto', margin: '5px' }} />
-                        ))}
-                    </div>
-                )}
+                
+                    {previews.length > 0 && (
+                        <div style={{width: "100%", display: 'flex', flexDirection: 'column', justifyContent: 'center', alignContent: 'center', alignItems: 'center'}}>
+                            <Button copy="Upload All" onClick={handleUpload}/>
+                            <div style={inlineGridImageStyle}>
+                            {previews.map((preview, index) => (
+                                <img style={imgInlineStyles} key={index} src={preview} alt={`Preview ${index}`} />
+                            ))}
+                            </div>
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     );
