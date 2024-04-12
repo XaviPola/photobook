@@ -3,6 +3,7 @@ import type { HTMLAttributes, CSSProperties } from 'react';
 import EditPictureCard from './EditPictureCard';
 import ReactDOM from 'react-dom';
 import Button from '@components/UI/edit/pictures/Button';
+import DeleteButton from './DeleteButton';
 
 export type PictureCardProps = HTMLAttributes<HTMLDivElement> & {
     id: string;
@@ -31,6 +32,7 @@ const PictureCard = forwardRef<HTMLDivElement, PictureCardProps>(({ id, imgPath,
     };
     
     const inlineStyles: CSSProperties = {
+        position: 'relative',
         width: "auto",
         aspectRatio: "1",
         display: "flex",
@@ -74,6 +76,13 @@ const PictureCard = forwardRef<HTMLDivElement, PictureCardProps>(({ id, imgPath,
         gap: "10px",
     };
 
+    const imgOrderStyles: CSSProperties = {
+        color: "white",
+        margin: "0",
+        fontSize: "2.25rem",
+        textShadow: "0 0 10px rgba(0, 0, 0, 0.7)",
+    };
+
     const inlineTextStyles: CSSProperties = {
         margin: "0",
         minHeight: "21px",
@@ -82,9 +91,38 @@ const PictureCard = forwardRef<HTMLDivElement, PictureCardProps>(({ id, imgPath,
         overflow: "hidden",
     };
 
+    const deleteButtonStyles: CSSProperties = {
+        width: "20px",
+        height: "20px",
+    };
+
+    const imgContainerStyles: CSSProperties = {
+        position: "relative",
+    };
+
+    const imgContextStyles: CSSProperties = {
+        position: "absolute",
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        width: "100%",
+        height: "30%",
+        boxSizing: "border-box",
+        padding: "10px",
+    };
+
     return <div ref={ref} style={inlineStyles} {...props}>
-        <img src={imgPath} style={inlineImgStyles}/>
-        <h2 style={inlineTextStyles}>{ imgNumberInAlbum }</h2>
+        <div style={imgContainerStyles}>
+            <div style={imgContextStyles}>
+            <h2 style={imgOrderStyles}>{ imgNumberInAlbum }</h2>
+            <DeleteButton extraStyles={deleteButtonStyles} />
+            </div>
+            
+            <img src={imgPath} style={inlineImgStyles}/>
+            
+        </div>
+        
         <div style={contextStyles}>
         <div style={contextTextStyles}>
             <h3 style={inlineTextStyles}>{ title ? `${title}` : "" }</h3>
