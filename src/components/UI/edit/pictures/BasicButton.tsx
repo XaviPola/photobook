@@ -27,9 +27,9 @@ const BasicButtonComponent = ({ element, onClick, extraStyles }: ButtonProps) =>
             style={
                 {
                 ...styles.button,
+                ...extraStyles ? extraStyles : null,
                 ...(hover ? styles.button.hover : null),
                 ...(clicked ? styles.button.clicked : null),
-                ...extraStyles ? extraStyles : null
                 }}
         >        
             {element}
@@ -41,15 +41,9 @@ const styles = {
   button: {
     width: 'fit-content',
     height: 'fit-content',
-    backgroundColor: 'black',
-    opacity: 0.7,
-    color: 'white',
     gap: '8px',
     padding: '8px',
     borderRadius: '8px',
-    fontSize: '12px',
-    fontFamily: '"Roboto", sans-serif',
-    fontWeight: 300,
     cursor: 'pointer',
 
     hover: {
