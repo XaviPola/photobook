@@ -1,7 +1,6 @@
-import React, { useState, forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import type { HTMLAttributes, CSSProperties } from 'react';
 import Button from '@components/UI/edit/pictures/Button.tsx';
-import type { Picture } from './Board';
 
 export type EditPictureCardProps = HTMLAttributes<HTMLDivElement> & {
     id: string;
@@ -40,6 +39,7 @@ const EditPictureCard =  forwardRef<HTMLDivElement, EditPictureCardProps> (
         position: "relative",
         margin: "0 auto",
         top: "25%",
+        zIndex: "1000",
     };
 
     const contextStyles: CSSProperties = {
