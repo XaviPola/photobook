@@ -7,6 +7,7 @@ import Button from '@components/UI/edit/pictures/Button';
 export type PictureCardProps = HTMLAttributes<HTMLDivElement> & {
     id: string;
     imgPath: string;
+    albumId: string;
     imgNumberInAlbum?: string;
     imgTitle?: string;
     imgDescription?: string;
@@ -14,7 +15,7 @@ export type PictureCardProps = HTMLAttributes<HTMLDivElement> & {
     isDragging?: boolean;
 };
 
-const PictureCard = forwardRef<HTMLDivElement, PictureCardProps>(({ id, imgPath, imgTitle, imgNumberInAlbum, imgDescription, withOpacity, isDragging, style, ...props }, ref) => {
+const PictureCard = forwardRef<HTMLDivElement, PictureCardProps>(({ id, imgPath, albumId, imgTitle, imgNumberInAlbum, imgDescription, withOpacity, isDragging, style, ...props }, ref) => {
 
     const [title, setTitle] = useState<string | undefined >(imgTitle ?? undefined);
     const [description, setDescription] = useState<string | undefined >(imgDescription ?? undefined );
@@ -94,9 +95,11 @@ const PictureCard = forwardRef<HTMLDivElement, PictureCardProps>(({ id, imgPath,
         {isPopupOpen && (
             ReactDOM.createPortal(
                 <EditPictureCard 
+                    albumId={albumId}
                     onclose={closePopup} 
                     setTitle={setTitle} 
                     setDescription={setDescription} 
+                    id={id}
                     imgPath={imgPath} 
                     imgDescription={description} 
                     imgTitle={title}
