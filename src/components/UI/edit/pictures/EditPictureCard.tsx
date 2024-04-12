@@ -81,12 +81,12 @@ const EditPictureCard =  forwardRef<HTMLDivElement, EditPictureCardProps> (
         const title = newTitle;
         const description = newDescription;
         try {
-          const response = await fetch(`http://localhost:1234/${albumId}/pictures/${id}`, {
+          const response = await fetch(`http://localhost:1234/albums/${albumId}`, {
             method: 'PATCH',
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ title, description }),
+            body: JSON.stringify({ id, title, description }),
           });
           if (!response.ok) {
             throw new Error('Failed to update picture');
