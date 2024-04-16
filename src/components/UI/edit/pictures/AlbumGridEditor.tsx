@@ -1,5 +1,4 @@
 import { useState, useCallback, useEffect, useMemo } from 'react';
-import type { FC } from 'react';
 import {
     DndContext,
     closestCenter,
@@ -21,10 +20,12 @@ import axios from 'axios';
 interface AlbumGridEditorProps {
     albumId: string;
     pictures: Picture[];
-    setPictures: React.Dispatch<React.SetStateAction<never[]>>;
+    setPictures: React.Dispatch<React.SetStateAction<Picture[]>>;
+    refresh: boolean;
+    setRefresh: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function AlbumGridEditor({albumId, pictures, setPictures}: AlbumGridEditorProps) {
+function AlbumGridEditor({albumId, pictures, setPictures, refresh, setRefresh}: AlbumGridEditorProps) {
     const handleAllUpdate = async () => {
         const uploadPromises = pictures.map( async (picture) => {
             console.log('updating picture', picture);
@@ -117,6 +118,27 @@ function AlbumGridEditor({albumId, pictures, setPictures}: AlbumGridEditorProps)
         setActiveId(null);
     }, []);
 
+    const deletePictureCard = async (albumId: string, pictureId: string) => {
+        const deleteCall = async () => {
+            console.log('Deleting picture', pictureId);
+            try {
+                const response = await axios.delete(`http://localhost:1234/albums/${albumId}/picture/${pictureId}`);
+                console.log('Picture deleted successfully', response);
+            
+            } catch (error) {
+                console.error('Error deleting picture:', error);
+            }
+        };
+
+        try {
+            await deleteCall();
+            setRefresh(!refresh);
+            console.log('refresh happened');
+        } catch (error) {
+            console.error('Error refreshing:', error);
+        }
+    };
+    
     return (
         <DndContext
             sensors={sensors}
@@ -128,11 +150,20 @@ function AlbumGridEditor({albumId, pictures, setPictures}: AlbumGridEditorProps)
             <SortableContext items={itemIds} strategy={rectSortingStrategy}>
                 <Grid >
                     {pictures.map((picture, index) => (
-                        <SortablePictureCard albumId={albumId} key={picture.id} id={picture.id.toString()} imgDescription={picture.description} imgTitle={picture.title} imgPath={picture.path} imgNumberInAlbum={(index + 1).toString()}/>
+                        <SortablePictureCard 
+                        albumId={albumId} 
+                        key={picture.id} 
+                        id={picture.id.toString()} 
+                        imgDescription={picture.description} 
+                        imgTitle={picture.title} 
+                        imgPath={picture.path} 
+                        imgNumberInAlbum={(index + 1).toString()}
+                        onDeleteCard={deletePictureCard}
+                        />
                     ))}
                 </Grid>
                 <DragOverlay adjustScale style={{ transformOrigin: '0 0 ' }}>
-                    {activeId ? <PictureCard id={activeId} imgPath={getImgPathById(activeId)} albumId={albumId} isDragging /> : null}
+                    {activeId ? <PictureCard id={activeId} imgPath={getImgPathById(activeId)} albumId={albumId} onDeleteCard={deletePictureCard} isDragging /> : null}
                 </DragOverlay>
             </SortableContext>
             

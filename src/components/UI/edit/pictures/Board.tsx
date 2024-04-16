@@ -1,8 +1,8 @@
 import type { FC } from 'react';
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Button from '@components/UI/edit/pictures/Button.tsx';
 import AlbumGridEditor from './AlbumGridEditor';
-import ImagesUploader from './ImagesUploader';
+import ImagesUploader from './ImagesUploader.tsx';
 
 
 export type Picture = {
@@ -19,7 +19,7 @@ const EditPictureBoard: FC = () => {
     const albumId = '1';
     
     useEffect(() => {
-        if (pictures.length === 0) {
+        if (pictures.length === 0 || refresh === true) {
             console.log('fetching pictures');
             fetch(`http://localhost:1234/pictures/${albumId}`)
                 .then((res) => {
@@ -27,10 +27,13 @@ const EditPictureBoard: FC = () => {
                 })
                 .then((data) => {
                     console.log('data:', data);
+                    if (data === null) {
+                        setPictures([]);
+                    } else {
                     const pictures = Object.values(data);
                     const sortedPictures = pictures.sort((a, b) => a.orderInAlbum - b.orderInAlbum);
                     console.log('sortedPictures:', sortedPictures);
-                    setPictures(sortedPictures);
+                    setPictures(sortedPictures);};
                     setRefresh(false);
                 });
         }
@@ -38,7 +41,7 @@ const EditPictureBoard: FC = () => {
 
     if (pictures.length > 0) {
         return (
-            <AlbumGridEditor albumId={albumId} pictures={pictures} setPictures={setPictures}/>
+            <AlbumGridEditor albumId={albumId} pictures={pictures} setPictures={setPictures} refresh={refresh} setRefresh={setRefresh} />
         );}
     else {
         return (
