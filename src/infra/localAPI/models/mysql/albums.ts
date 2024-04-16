@@ -103,7 +103,6 @@ export class AlbumsModel {
     author?: string;
     description?: string;
   }): Promise<void> {
-    console.log(id, title, author, description)
     let sqlString = `UPDATE Albums SET `;
     let Clausules = [];
     let queryValues = [];
@@ -158,7 +157,6 @@ export class AlbumsModel {
 
     const clausulesString = Clausules.join(', ');
     sqlString += clausulesString + ` WHERE album_id = ? AND picture_id = ?;`;
-    console.log(sqlString);
     
     try {
       await albumsConnection.query<ResultSetHeader>(
@@ -168,5 +166,18 @@ export class AlbumsModel {
     } catch (e) {
       throw new Error('Error updating album picture');
     }
+  }
+
+  static async deletePicture({albumId, pictureId} : {albumId: number; pictureId: number}): Promise<void> {
+
+    try {
+      await albumsConnection.query<ResultSetHeader>(
+        'DELETE FROM AlbumPictures WHERE picture_id = ? AND album_id = ?;', 
+        [pictureId, albumId]
+      );
+      await albumsConnection.query(`DELETE FROM Pictures WHERE id = ?`, [pictureId]);
+    } catch (e) {
+      throw new Error('Error deleting album picture:', (e as Error));
+    };
   }
 }

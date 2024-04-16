@@ -38,7 +38,6 @@ export class PictureController {
       }
       const { albumId } = req.params;
       const imgPath = path.join('uploads', req.file.filename);
-      console.log(albumId, imgPath);
 
       try {
         await PicturesModel.create({

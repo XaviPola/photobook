@@ -1,5 +1,6 @@
 import type { Request, Response } from "express";
 import { AlbumsModel } from "@infra/localAPI/models/mysql/albums";
+import { parse } from "uuid";
 
 
 export class AlbumController {
@@ -76,6 +77,27 @@ export class AlbumController {
             res.json({ success: true });
         } catch (err) {
             res.status(500).json({ error: "Failed to update picture", details: err });
+        }
+    }
+
+    static async deleteAlbum(req: Request, res: Response): Promise<void> {
+        const { albumId } = req.params;
+        try {
+            const aid = parseInt(albumId);
+            await AlbumsModel.delete({id: aid});
+            res.json({ success: true });
+        } catch (err) {
+            res.status(500).json({ error: "Failed to delete album", details: err });
+        }
+    }
+
+    static async deletePicture(req: Request, res: Response): Promise<void> {
+        const { albumId, pictureId } = req.params;
+        try {
+            await AlbumsModel.deletePicture({albumId: parseInt(albumId), pictureId: parseInt(pictureId)});
+            res.json({ success: true });
+        } catch (err) {
+            res.status(500).json({ error: "Failed to delete picture", details: err });
         }
     }
 }
