@@ -1,0 +1,28 @@
+---
+const buttonCopy = Astro.props.buttonCopy;
+const href = Astro.props.href;
+---
+
+<button>
+    <a href={href}>{buttonCopy}</a>
+</button>
+
+<style>
+    button {
+        width: fit-content;
+        height: fit-content;
+        background-color: black;
+        opacity: 0.5;
+        color: white;
+        gap: 8px;
+        padding: 8px 16px;
+        border-radius: 8px;
+        font-size: 12px;
+        font-family: "Roboto", sans-serif;
+        font-weight: 300;
+    }
+
+    button:hover {
+        opacity: 1;
+    }
+</style>

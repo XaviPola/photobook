@@ -10,10 +10,10 @@ import {
 } from '@dnd-kit/core';
 import type { DragStartEvent, DragEndEvent } from '@dnd-kit/core';
 import { SortableContext, rectSortingStrategy } from '@dnd-kit/sortable';
-import Grid from '@components/UI/edit/pictures/Grid.tsx';
+import Grid from '@components/UI/Grid';
 import SortablePictureCard from '@components/UI/edit/pictures/SortablePictureCard.tsx';
 import PictureCard from '@components/UI/edit/pictures/PictureCard.tsx';
-import type { Picture } from './Board';
+import type { Picture } from '@components/UI/edit/pictures/Board';
 import axios from 'axios';
 
 
