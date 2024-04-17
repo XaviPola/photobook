@@ -2,7 +2,7 @@ import React, { forwardRef, useState } from 'react';
 import type { HTMLAttributes, CSSProperties } from 'react';
 import EditPictureCard from './EditPictureCard';
 import ReactDOM from 'react-dom';
-import Button from '@components/UI/edit/pictures/Button';
+import Button from '@components/UI/Button';
 import DeleteButton from './DeleteButton';
 
 

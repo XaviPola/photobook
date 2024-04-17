@@ -1,6 +1,6 @@
 import React from 'react';
 import type { HTMLAttributes, CSSProperties } from 'react';
-import BasicButtonComponent from './BasicButton';
+import BasicButtonComponent from '@components/UI/BasicButton';
 import DeleteIcon from '@components/UI/icons/Delete';
 
 export type ButtonProps = HTMLAttributes<HTMLButtonElement> & {

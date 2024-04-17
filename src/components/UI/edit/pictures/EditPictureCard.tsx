@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react';
 import type { HTMLAttributes, CSSProperties } from 'react';
-import Button from '@components/UI/edit/pictures/Button.tsx';
+import Button from '@components/UI/Button';
 
 export type EditPictureCardProps = HTMLAttributes<HTMLDivElement> & {
     id: string;

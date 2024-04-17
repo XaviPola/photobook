@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import type { ChangeEvent, DragEvent, Dispatch, SetStateAction, CSSProperties } from 'react';
 import axios from 'axios';
-import Button from '@components/UI/edit/pictures/Button.tsx';
+import Button from '@components/UI/Button';
+import CustomAlert from '@components/UI/CustomAlert';
+import UploadIcon from '@components/UI/icons/UploadFiles';
 
 interface ImagesUploaderProps {
     albumId: string;
@@ -13,6 +15,31 @@ function ImagesUploader({ albumId, refresh, setRefresh }: ImagesUploaderProps) {
     const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
     const [previews, setPreviews] = useState<string[]>([]);
     const [isDragging, setIsDragging] = useState(false);
+    const [alertOpen, setAlertOpen] = useState(false);
+    const [alertTitle, setAlertTitle] = useState('');
+    const [alertMessage, setAlertMessage] = useState('');
+    const timeout = 1200;
+    const mainId = 'images-uploader';
+
+    const handleAlertClose = () => {
+        setAlertOpen(false);
+    };
+
+    const handleShowAlert = () => {
+        setAlertOpen(true);
+    };
+
+    const handleSuccessShowAlert = () => {
+        setAlertTitle('📸 Smile!');
+        setAlertMessage('All images uploaded successfully!');
+        handleShowAlert();
+    };
+
+    const handleFailureShowAlert = () => {
+        setAlertTitle('Oops!');
+        setAlertMessage('Some images failed to upload. Please try again.');
+        handleShowAlert();
+    };
 
     const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files.length > 0) {
@@ -54,12 +81,17 @@ function ImagesUploader({ albumId, refresh, setRefresh }: ImagesUploaderProps) {
 
         try {
             await Promise.all(uploadPromises);
-            const a = setRefresh(!refresh);
-            console.log("refresh happened", a)
-            alert('All images uploaded successfully!');
+            handleSuccessShowAlert();
+
+            function revertRefresh() {
+                setRefresh(!refresh);
+            }                
+
+            setTimeout(revertRefresh, timeout);
+
         } catch (error) {
+            handleFailureShowAlert();
             console.error('Error uploading images:', error);
-            alert('Some images failed to upload. Please try again.');
         }
     };
 
@@ -103,8 +135,7 @@ function ImagesUploader({ albumId, refresh, setRefresh }: ImagesUploaderProps) {
         width: '100%',
         margin: '0 auto',
         marginTop: '15px',
-        justifyContent: 'center',
-        alignItems: 'center',
+        placeItems: 'center',
     };
 
     const imgInlineStyles: CSSProperties = {
@@ -118,11 +149,20 @@ function ImagesUploader({ albumId, refresh, setRefresh }: ImagesUploaderProps) {
 
     return (
         <div
+            id={mainId}
             style={inlineStyles}
             onDrop={handleDrop}
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
         >
+            <CustomAlert 
+                open={alertOpen}
+                title={alertTitle}
+                message={alertMessage}
+                onClose={handleAlertClose}
+                timeout={timeout}
+                parentId={mainId}
+            />
             <div style={inlineContainerStyles}>
                 <div style={{ textAlign: 'center', width: "100%" }}>
                     <input
@@ -131,6 +171,7 @@ function ImagesUploader({ albumId, refresh, setRefresh }: ImagesUploaderProps) {
                         style={{ display: 'none' }}
                         multiple
                     />
+                    <UploadIcon color="black" width="100px"/>
                     <p>Drag & Drop images here</p>
 
                 

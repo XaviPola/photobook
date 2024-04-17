@@ -1,8 +1,9 @@
 import type { FC } from 'react';
 import { useState, useEffect } from 'react';
-import Button from '@components/UI/edit/pictures/Button.tsx';
+import Button from '@components/UI/Button.tsx';
 import AlbumGridEditor from './AlbumGridEditor';
 import ImagesUploader from './ImagesUploader.tsx';
+import UploadButton from './UploadButton';
 
 
 export type Picture = {
@@ -16,6 +17,8 @@ export type Picture = {
 const EditPictureBoard: FC = () => {
     const [pictures, setPictures] = useState([]);
     const [refresh, setRefresh] = useState(true);
+    const [uploader, setUploader] = useState(false);
+
     const albumId = '1';
     
     useEffect(() => {
@@ -35,17 +38,28 @@ const EditPictureBoard: FC = () => {
                     console.log('sortedPictures:', sortedPictures);
                     setPictures(sortedPictures);};
                     setRefresh(false);
+                    setUploader(false);
                 });
         }
     }, [refresh]);
 
-    if (pictures.length > 0) {
+    const handleUpload = () => {
+        console.log('uploading');
+        console.log('uploader:', uploader);
+        setUploader(true);
+        console.log('uploader:', uploader);
+    }
+
+    if (pictures.length === 0 || uploader === true) {
         return (
-            <AlbumGridEditor albumId={albumId} pictures={pictures} setPictures={setPictures} refresh={refresh} setRefresh={setRefresh} />
+            <ImagesUploader albumId={albumId} refresh={refresh} setRefresh={setRefresh} />
         );}
     else {
         return (
-            <ImagesUploader albumId={albumId} refresh={refresh} setRefresh={setRefresh} />
+            <>
+                <AlbumGridEditor albumId={albumId} pictures={pictures} setPictures={setPictures} refresh={refresh} setRefresh={setRefresh} />
+                <UploadButton onClick={handleUpload} />
+            </>
         );
     }
 }
