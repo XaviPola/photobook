@@ -22,7 +22,7 @@ const ButtonComponent = ({ copy, href, onClick, extraStyles }: ButtonProps) => {
     };
     
     const styles = extraStyles !== undefined ? { ...buttonStyles, ...extraStyles } : buttonStyles;
-    const Anchor = <a onClick={onClick} href={href}>{copy}</a>;
+    const Anchor = <a href={href}>{copy}</a>;
     
     return (
             <BasicButtonComponent element={Anchor} onClick={onClick} extraStyles={styles} />
