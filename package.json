@@ -36,6 +36,14 @@
     "@types/uuid": "^9.0.8",
     "dotenv": "^16.4.5",
     "morgan": "^1.10.0",
+    "standard": "^17.1.0",
+    "ts-standard": "^12.0.2",
     "tsx": "^4.7.2"
+  },
+  "eslintConfig": {
+    "extends": ["./node_modules/ts-standard/eslintrc.json"],
+    "parserOptions": {
+      "project": "./tsconfig.json"
+    }
   }
 }
