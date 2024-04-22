@@ -94,7 +94,7 @@ export class AlbumsModel {
 
   static async update ({ id, title, author, description }: {
     id: number
-    title: string
+    title?: string
     author?: string
     description?: string
   }): Promise<void> {
@@ -102,17 +102,17 @@ export class AlbumsModel {
     const Clausules = []
     const queryValues = []
 
-    if (title) {
+    if (title != null) {
       Clausules.push('title = ?')
       queryValues.push(title)
     }
 
-    if (author) {
+    if (author != null) {
       Clausules.push('author = ?')
       queryValues.push(author)
     }
 
-    if (description) {
+    if (description != null) {
       Clausules.push('description = ?')
       queryValues.push(description)
     }
@@ -132,25 +132,25 @@ export class AlbumsModel {
 
   static updatePicture = async (albumId: number, pictureId: number, order?: number, title?: string, description?: string): Promise<void> => {
     let sqlString = 'UPDATE AlbumPictures SET '
-    const Clausules = []
+    const clausules = []
     const queryValues = []
 
-    if (order) {
-      Clausules.push('order_in_album = ?')
+    if (order != null) {
+      clausules.push('order_in_album = ?')
       queryValues.push(order)
     }
 
-    if (title) {
-      Clausules.push('title = ?')
+    if (title != null) {
+      clausules.push('title = ?')
       queryValues.push(title)
     }
 
-    if (description) {
-      Clausules.push('description = ?')
+    if (description != null) {
+      clausules.push('description = ?')
       queryValues.push(description)
     }
 
-    const clausulesString = Clausules.join(', ')
+    const clausulesString = clausules.join(', ')
     sqlString += clausulesString + ' WHERE album_id = ? AND picture_id = ?;'
 
     try {

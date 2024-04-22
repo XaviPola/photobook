@@ -1,11 +1,10 @@
-import express from 'express';
-import { PictureController } from '../controllers/picturesController.js';
+import express from 'express'
+import { PictureController } from '../controllers/picturesController.js'
 
-const router = express.Router();
+const router = express.Router()
 
-router.get('/:albumId', PictureController.getAll);
-router.post('/upload/:albumId', PictureController.create);
-router.patch('/:albumId', PictureController.update);
+router.get('/:albumId', PictureController.getAll)
+router.post('/upload/:albumId', PictureController.create)
+router.patch('/:albumId', PictureController.update)
 
-
-export default router;
+export default router
