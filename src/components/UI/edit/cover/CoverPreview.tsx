@@ -2,18 +2,17 @@ import React from 'react'
 import PictureIcon from '@components/UI/icons/Picture'
 
 interface CoverPreviewProps {
-  title: string
-  author: string
+  title?: string
+  author?: string
   fontColor: string
   backgroundColor: string
   imgPath?: string
-  setTitle: React.Dispatch<React.SetStateAction<string>>
-  setAuthor: React.Dispatch<React.SetStateAction<string>>
+  setCoverPicture: React.Dispatch<React.SetStateAction<File | null>>
+  setTitle: React.Dispatch<React.SetStateAction<string | undefined>>
+  setAuthor: React.Dispatch<React.SetStateAction<string | undefined>>
 }
 
-const CoverPreview: React.FC<CoverPreviewProps> = ({ title, author, fontColor, backgroundColor, imgPath, setTitle, setAuthor }) => {
-  const [img, setImg] = React.useState<string | null>(imgPath !== undefined ? imgPath : null)
-
+const CoverPreview: React.FC<CoverPreviewProps> = ({ title, author, fontColor, backgroundColor, imgPath, setCoverPicture, setTitle, setAuthor }) => {
   const onDrop = (event: React.DragEvent<HTMLDivElement>): void => {
     event.preventDefault()
     if (event.dataTransfer.files.length > 1) {
@@ -24,8 +23,7 @@ const CoverPreview: React.FC<CoverPreviewProps> = ({ title, author, fontColor, b
       console.log('files:', event.dataTransfer.files)
       console.log('uploading')
       const filesArray = Array.from(event.dataTransfer.files)
-      setImg(URL.createObjectURL(filesArray[0]))
-      console.log('Cover Image:', img)
+      setCoverPicture(filesArray[0])
     }
   }
 
@@ -82,16 +80,19 @@ const CoverPreview: React.FC<CoverPreviewProps> = ({ title, author, fontColor, b
   return (
     <div
       style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '40px',
         width: 'auto',
         minWidth: '75vh',
+        maxWidth: '90vh',
         minHeight: '100vh',
         height: '100%',
         aspectRatio: '1.4:1',
         borderRadius: '8px',
         boxShadow: '0 0 20px rgba(0, 0, 0, 0.1)',
         padding: '40px',
-        backgroundColor,
-        gap: '40px'
+        backgroundColor
       }}
       onDrop={onDrop}
       onDragOver={onDragOver}
@@ -103,10 +104,12 @@ const CoverPreview: React.FC<CoverPreviewProps> = ({ title, author, fontColor, b
           alignItems: 'center',
           justifyContent: 'center',
           height: '100%',
-          border: '1px dashed rgba(0, 0, 0, 0.05)'
+          border: '1px dashed rgba(0, 0, 0, 0.05)',
+          gap: '100px'
+
         }}
       >
-        {img == null
+        {imgPath == null
           ? (
 
             <div style={{ ...imgBoxStyles, backgroundColor: 'white' }}>
@@ -118,13 +121,13 @@ const CoverPreview: React.FC<CoverPreviewProps> = ({ title, author, fontColor, b
             )
           : (
             <img
-              src={img} style={{ width: '100%', height: '100%' }}
+              src={imgPath} style={{ width: '100%', height: '100%', maxWidth: '65vh' }}
             />
             )}
       </div>
 
-      <input type='text' style={titleStyles} id='titleInput' value={title} onChange={handleTitleChange} />
-      <input type='text' style={authorStyles} id='authorInput' value={author} onChange={handleAuthorChange} />
+      <input type='text' style={titleStyles} placeholder='title' value={title} onChange={handleTitleChange} />
+      <input type='text' style={authorStyles} placeholder='author' value={author} onChange={handleAuthorChange} />
     </div>
   )
 }
