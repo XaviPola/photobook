@@ -9,12 +9,30 @@ interface CoverPreviewProps {
   imgPath?: string
   setTitle: React.Dispatch<React.SetStateAction<string>>
   setAuthor: React.Dispatch<React.SetStateAction<string>>
-  onDrop: (event: React.DragEvent<HTMLDivElement>) => void
-  onDragOver: (event: React.DragEvent<HTMLDivElement>) => void
-  onDragLeave: () => void
 }
 
-const CoverPreview: React.FC<CoverPreviewProps> = ({ title, author, fontColor, backgroundColor, imgPath, setTitle, setAuthor, onDrop, onDragOver, onDragLeave }) => {
+const CoverPreview: React.FC<CoverPreviewProps> = ({ title, author, fontColor, backgroundColor, imgPath, setTitle, setAuthor }) => {
+  const [img, setImg] = React.useState<string | null>(imgPath !== undefined ? imgPath : null)
+
+  const onDrop = (event: React.DragEvent<HTMLDivElement>): void => {
+    event.preventDefault()
+    if (event.dataTransfer.files.length > 1) {
+      console.error('Only one file is allowed')
+      return
+    }
+    if (event.dataTransfer.files.length > 0) {
+      console.log('files:', event.dataTransfer.files)
+      console.log('uploading')
+      const filesArray = Array.from(event.dataTransfer.files)
+      setImg(URL.createObjectURL(filesArray[0]))
+      console.log('Cover Image:', img)
+    }
+  }
+
+  const onDragOver = (event: React.DragEvent<HTMLDivElement>): void => {
+    event.preventDefault()
+  }
+
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const newTitle = event.target.value
     console.log('title:', newTitle)
@@ -77,40 +95,34 @@ const CoverPreview: React.FC<CoverPreviewProps> = ({ title, author, fontColor, b
       }}
       onDrop={onDrop}
       onDragOver={onDragOver}
-      onDragLeave={onDragLeave}
     >
-      {imgPath == null
-        ? (
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              height: '100%',
-              border: '1px dashed rgba(0, 0, 0, 0.05)',
-              borderRadius: '8px',
-              gap: '66px'
-            }}
-          >
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: '100%',
+          border: '1px dashed rgba(0, 0, 0, 0.05)'
+        }}
+      >
+        {img == null
+          ? (
+
             <div style={{ ...imgBoxStyles, backgroundColor: 'white' }}>
               <div style={{ width: '100px', height: '100px', borderRadius: '8px' }}>
                 <PictureIcon width='30px' height='30px' />
               </div>
               <p>Drag and drop your cover here</p>
             </div>
-          </div>
-          )
-        : (
-          <div
-            style={{
-              backgroundImage: `url(${imgPath})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              borderRadius: '8px'
-            }}
-          />
-          )}
+            )
+          : (
+            <img
+              src={img} style={{ width: '100%', height: '100%' }}
+            />
+            )}
+      </div>
+
       <input type='text' style={titleStyles} id='titleInput' value={title} onChange={handleTitleChange} />
       <input type='text' style={authorStyles} id='authorInput' value={author} onChange={handleAuthorChange} />
     </div>
