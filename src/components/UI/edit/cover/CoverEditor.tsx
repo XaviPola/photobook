@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import ColorSelector from './ColorSelector'
+import ToolBar from './ToolBar'
 import CoverPreview from './CoverPreview'
 import axios from 'axios'
 
@@ -151,11 +151,12 @@ const CoverEditor: React.FC<CoverEditorProps> = ({ albumId }) => {
 
   return (
     <div style={displayStyles}>
-      <ColorSelector
+      <ToolBar
         backgroundColor={backgroundColor}
         fontColor={fontColor}
         setBackgroundColor={setBackgroundColor}
         setFontColor={setFontColor}
+        setCoverPicture={setCoverPicture}
       />
       <CoverPreview
         title={title}
