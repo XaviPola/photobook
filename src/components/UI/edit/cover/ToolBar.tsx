@@ -35,24 +35,6 @@ const ToolBar: React.FC<ToolBarProps> = ({ backgroundColor, fontColor, setBackgr
     justifyContent: 'center'
   }
 
-  const labelStyles: CSSProperties = {
-    textTransform: 'capitalize',
-    fontFamily: '"Roboto", sans-serif',
-    fontStyle: 'normal',
-    fontWeight: 300,
-    fontSize: '20px'
-  }
-
-  const inputStyles: CSSProperties = {
-    display: 'flex',
-    flexDirection: 'row',
-    gap: '10px',
-    justifyContent: 'space-between',
-    borderRadius: '8px',
-    border: '1px solid #ccc',
-    padding: '10px'
-  }
-
   return (
     <div style={boxStyles}>
       <ColorSelector
@@ -65,14 +47,6 @@ const ToolBar: React.FC<ToolBarProps> = ({ backgroundColor, fontColor, setBackgr
         colorInitialValue={fontColor}
         onColorChange={onFontColorChange}
       />
-      {/* <div style={inputStyles}>
-        <label style={labelStyles}>Background</label>
-        <input type='color' value={backgroundColor} onChange={onBackgroundColorChange} />
-      </div>
-      <div style={inputStyles}>
-        <label style={labelStyles}>Font</label>
-        <input type='color' value={fontColor} onChange={onFontColorChange} />
-      </div> */}
       <CoverImageLoader setCoverPicture={setCoverPicture} />
     </div>
   )
