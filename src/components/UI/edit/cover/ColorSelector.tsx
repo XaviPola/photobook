@@ -23,11 +23,13 @@ const ColorSelector: React.FC<ColorSelectorProps> = ({ backgroundColor, fontColo
 
   const boxStyles: CSSProperties = {
     display: 'flex',
-    flexDirection: 'column',
-    gap: '10px',
+    height: '100%',
+    flexDirection: 'row',
+    gap: '40px',
     borderRadius: '8px',
     boxShadow: '0 0 20px rgba(0, 0, 0, 0.1)',
-    padding: '20px'
+    padding: '20px',
+    justifyContent: 'center'
   }
 
   const labelStyles: CSSProperties = {

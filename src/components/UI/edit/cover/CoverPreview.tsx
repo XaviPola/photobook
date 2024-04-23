@@ -50,7 +50,7 @@ const CoverPreview: React.FC<CoverPreviewProps> = ({ title, author, fontColor, b
     alignItems: 'center',
     justifyContent: 'center',
     width: 'auto',
-    minWidth: '60vh',
+    minWidth: '30vh',
     aspectRatio: '1'
   }
 
@@ -71,29 +71,28 @@ const CoverPreview: React.FC<CoverPreviewProps> = ({ title, author, fontColor, b
 
   const authorStyles: CSSProperties = {
     ...inputStyles,
-    fontSize: '45px'
+    fontSize: '250%'
   }
 
   const titleStyles: CSSProperties = {
     ...inputStyles,
-    fontSize: '100px'
+    fontSize: '500%'
   }
 
   const coverStyles: CSSProperties = {
+    fontSize: '1vw',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'center',
-    gap: '40px',
-    width: 'auto',
-    minWidth: '75vh',
-    maxWidth: '90vh',
-    minHeight: '100vh',
+    justifyContent: 'space-between',
+    gap: '30px',
+    width: '100%',
     height: '100%',
     aspectRatio: '1.4:1',
     borderRadius: '8px',
     boxShadow: '0 0 20px rgba(0, 0, 0, 0.1)',
-    padding: '40px',
+    boxSizing: 'border-box',
+    padding: '6% 3%',
     backgroundColor
   }
 
@@ -106,9 +105,9 @@ const CoverPreview: React.FC<CoverPreviewProps> = ({ title, author, fontColor, b
   }
 
   const imgStyles: CSSProperties = {
-    width: '100%',
-    height: '100%',
-    maxWidth: '65vh',
+    width: '80%',
+    height: '80%',
+    minWidth: '30vh',
     cursor: 'grab'
   }
 

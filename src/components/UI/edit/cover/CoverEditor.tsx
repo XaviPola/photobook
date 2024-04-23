@@ -141,8 +141,22 @@ const CoverEditor: React.FC<CoverEditorProps> = ({ albumId }) => {
     console.log('refreshing imgPath')
   }, [imgPath])
 
+  const displayStyles: React.CSSProperties = {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    gap: '1rem'
+  }
+
   return (
-    <>
+    <div style={displayStyles}>
+      <ColorSelector
+        backgroundColor={backgroundColor}
+        fontColor={fontColor}
+        setBackgroundColor={setBackgroundColor}
+        setFontColor={setFontColor}
+      />
       <CoverPreview
         title={title}
         author={author}
@@ -153,14 +167,8 @@ const CoverEditor: React.FC<CoverEditorProps> = ({ albumId }) => {
         setTitle={setTitle}
         setAuthor={setAuthor}
       />
-      <ColorSelector
-        backgroundColor={backgroundColor}
-        fontColor={fontColor}
-        setBackgroundColor={setBackgroundColor}
-        setFontColor={setFontColor}
-      />
 
-    </>
+    </div>
   )
 }
 
