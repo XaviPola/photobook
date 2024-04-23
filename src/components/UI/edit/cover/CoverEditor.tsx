@@ -108,17 +108,38 @@ const CoverEditor: React.FC<CoverEditorProps> = ({ albumId }) => {
     })
       .then((response) => {
         console.log('Cover image updated successfully')
+        loadImgPath()
       })
       .catch((error) => {
         console.error(error)
       })
   }
 
-  useEffect(() => {
+  const loadImgPath = (): void => {
+    axios.get(`http://localhost:1234/covers/${albumId}`)
+      .then((response) => {
+        const { imgPath } = response.data
+        console.log('imgPath:', imgPath)
+        setImgPath(imgPath)
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }
+
+  const updateCover: () => Promise<void> = async () => {
     if (coverPicture !== null) {
       updateCoverPicture()
     }
+  }
+
+  useEffect(() => {
+    void updateCover()
   }, [coverPicture])
+
+  useEffect(() => {
+    console.log('refreshing imgPath')
+  }, [imgPath])
 
   return (
     <>

@@ -1,4 +1,5 @@
 import React from 'react'
+import type { CSSProperties } from 'react'
 import PictureIcon from '@components/UI/icons/Picture'
 
 interface CoverPreviewProps {
@@ -43,7 +44,7 @@ const CoverPreview: React.FC<CoverPreviewProps> = ({ title, author, fontColor, b
     setAuthor(newAuthor)
   }
 
-  const imgBoxStyles: React.CSSProperties = {
+  const imgBoxStyles: CSSProperties = {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -53,78 +54,77 @@ const CoverPreview: React.FC<CoverPreviewProps> = ({ title, author, fontColor, b
     aspectRatio: '1'
   }
 
-  const coverTextStyles: React.CSSProperties = {
+  const coverTextStyles: CSSProperties = {
     fontFamily: '"Averia Serif Libre", serif',
     fontWeight: 700,
     color: fontColor
   }
 
-  const inputStyles: React.CSSProperties = {
+  const inputStyles: CSSProperties = {
     ...coverTextStyles,
     backgroundColor: 'transparent',
     border: 'none',
     width: '100%',
-    textAlign: 'center'
+    textAlign: 'center',
+    cursor: 'pointer'
   }
 
-  const authorStyles: React.CSSProperties = {
+  const authorStyles: CSSProperties = {
     ...inputStyles,
     fontSize: '45px'
   }
 
-  const titleStyles: React.CSSProperties = {
+  const titleStyles: CSSProperties = {
     ...inputStyles,
     fontSize: '100px'
   }
 
+  const coverStyles: CSSProperties = {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '40px',
+    width: 'auto',
+    minWidth: '75vh',
+    maxWidth: '90vh',
+    minHeight: '100vh',
+    height: '100%',
+    aspectRatio: '1.4:1',
+    borderRadius: '8px',
+    boxShadow: '0 0 20px rgba(0, 0, 0, 0.1)',
+    padding: '40px',
+    backgroundColor
+  }
+
+  const labelStyles: CSSProperties = {
+    textTransform: 'capitalize',
+    fontFamily: '"Roboto", sans-serif',
+    fontStyle: 'normal',
+    fontWeight: 300,
+    fontSize: '20px'
+  }
+
   return (
     <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '40px',
-        width: 'auto',
-        minWidth: '75vh',
-        maxWidth: '90vh',
-        minHeight: '100vh',
-        height: '100%',
-        aspectRatio: '1.4:1',
-        borderRadius: '8px',
-        boxShadow: '0 0 20px rgba(0, 0, 0, 0.1)',
-        padding: '40px',
-        backgroundColor
-      }}
+      style={coverStyles}
       onDrop={onDrop}
       onDragOver={onDragOver}
     >
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          height: '100%',
-          border: '1px dashed rgba(0, 0, 0, 0.05)',
-          gap: '100px'
-
-        }}
-      >
-        {imgPath == null
-          ? (
-
-            <div style={{ ...imgBoxStyles, backgroundColor: 'white' }}>
-              <div style={{ width: '100px', height: '100px', borderRadius: '8px' }}>
-                <PictureIcon width='30px' height='30px' />
-              </div>
-              <p>Drag and drop your cover here</p>
+      {imgPath == null
+        ? (
+          <div style={{ ...imgBoxStyles, backgroundColor: 'white' }}>
+            <div style={{ width: '100px', height: '100px', borderRadius: '8px' }}>
+              <PictureIcon width='30px' height='30px' />
             </div>
-            )
-          : (
-            <img
-              src={imgPath} style={{ width: '100%', height: '100%', maxWidth: '65vh' }}
-            />
-            )}
-      </div>
+            <p style={labelStyles}>Drag and drop your cover here</p>
+          </div>
+          )
+        : (
+          <img
+            src={imgPath} style={{ width: '100%', height: '100%', maxWidth: '65vh' }}
+          />
+          )}
 
       <input type='text' style={titleStyles} placeholder='title' value={title} onChange={handleTitleChange} />
       <input type='text' style={authorStyles} placeholder='author' value={author} onChange={handleAuthorChange} />

@@ -30,14 +30,29 @@ const ColorSelector: React.FC<ColorSelectorProps> = ({ backgroundColor, fontColo
     padding: '20px'
   }
 
+  const labelStyles: CSSProperties = {
+    textTransform: 'capitalize',
+    fontFamily: '"Roboto", sans-serif',
+    fontStyle: 'normal',
+    fontWeight: 300,
+    fontSize: '20px'
+  }
+
+  const inputStyles: CSSProperties = {
+    display: 'flex',
+    flexDirection: 'row',
+    gap: '10px',
+    justifyContent: 'space-between'
+  }
+
   return (
     <div style={boxStyles}>
-      <div>
-        <label>Background</label>
+      <div style={inputStyles}>
+        <label style={labelStyles}>Background</label>
         <input type='color' value={backgroundColor} onChange={onBackgroundColorChange} />
       </div>
-      <div>
-        <label>Font</label>
+      <div style={inputStyles}>
+        <label style={labelStyles}>Font</label>
         <input type='color' value={fontColor} onChange={onFontColorChange} />
       </div>
     </div>
