@@ -66,7 +66,7 @@ const CoverPreview: React.FC<CoverPreviewProps> = ({ title, author, fontColor, b
     border: 'none',
     width: '100%',
     textAlign: 'center',
-    cursor: 'pointer'
+    cursor: 'text'
   }
 
   const authorStyles: CSSProperties = {
@@ -105,6 +105,13 @@ const CoverPreview: React.FC<CoverPreviewProps> = ({ title, author, fontColor, b
     fontSize: '20px'
   }
 
+  const imgStyles: CSSProperties = {
+    width: '100%',
+    height: '100%',
+    maxWidth: '65vh',
+    cursor: 'grab'
+  }
+
   return (
     <div
       style={coverStyles}
@@ -122,7 +129,7 @@ const CoverPreview: React.FC<CoverPreviewProps> = ({ title, author, fontColor, b
           )
         : (
           <img
-            src={imgPath} style={{ width: '100%', height: '100%', maxWidth: '65vh' }}
+            src={imgPath} style={imgStyles}
           />
           )}
 
