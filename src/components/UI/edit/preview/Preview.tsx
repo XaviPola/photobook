@@ -30,6 +30,10 @@ const BookPreview: React.FC<BookPreviewProps> = ({ albumId }) => {
     getAllPictures(albumId).then((pages) => setBookPages(pages)).catch((error) => console.error(error))
   }, [albumId])
 
+  const goBack = (): void => {
+    window.history.back()
+  }
+
   const containerStyles: React.CSSProperties = {
     display: 'flex',
     justifyContent: 'center',
@@ -56,13 +60,14 @@ const BookPreview: React.FC<BookPreviewProps> = ({ albumId }) => {
     border: 'none',
     width: '48px',
     height: '48px',
-    boxShadow: '0 0 10px 0 rgba(0, 0, 0, 0.2)'
+    boxShadow: '0 0 10px 0 rgba(0, 0, 0, 0.2)',
+    cursor: 'pointer'
   }
 
   return (
     <div style={containerStyles}>
       <div style={closePreviewStyles}>
-        <button style={buttonStyles}><CloseIcon /></button>
+        <button style={buttonStyles} onClick={goBack}><CloseIcon /></button>
       </div>
       <Background color={bookCover?.fontColor} />
       <Book bookCover={bookCover} bookPages={bookPages} />
