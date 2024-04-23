@@ -76,5 +76,3 @@ export class PicturesModel {
     }
   }
 }
-
-// static async delete(pictureId: number): Promise<void> {
