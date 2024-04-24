@@ -14,6 +14,8 @@ let menuIcons = {
 };
 
 const albumTitle: string = "Album Title";
+
+const currentSection = Astro.props.section;
 ---
 <div class="main-menu">
     <aside>
@@ -29,7 +31,7 @@ const albumTitle: string = "Album Title";
                 let Icon = menuIcons[section];
                 return (
                 <li>
-                    <button>
+                    <button class={(section === currentSection) ? 'side-selected' : 'side-button' }>
                         <div class="icon-container">
                             <Icon />
                         </div>
@@ -46,9 +48,16 @@ const albumTitle: string = "Album Title";
         </div>
         <div class="sectionsAndActions">
             <div class="menu">
-                <button>Album</button>
-                <button>Photos</button>
-                <button>Settings</button>
+                {menuSections.map((section) => {
+                    let Icon = menuIcons[section];
+                    return (
+                    <button class={(section === currentSection) ? 'mobile-selected' : 'mobile-button' }>
+                        <div class="icon-container">
+                            <Icon />
+                        </div>
+                        <span>{section}</span>                    
+                    </button>
+                )})}
             </div>
             <Button copy="Preview Album" href="/Preview" />
         </div>
@@ -92,7 +101,7 @@ const albumTitle: string = "Album Title";
         font-size: 16px;
     }
 
-    button {
+    .side-button {
         width: 100%;
         display: flex;
         align-items: center;
@@ -101,10 +110,37 @@ const albumTitle: string = "Album Title";
         background: none;
         padding: 6px;
         border-radius: 6px;
+        cursor: pointer;
     }
 
-    button:hover {
+    .side-button:hover {
         background-color: #F5F5F5;
+    }
+
+    .side-selected {
+        background-color: #F5F5F5;
+    }
+
+    .mobile-button, .mobile-selected {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        background-color: transparent;
+        border: none;
+        border-radius: 6px;
+        padding: 4px;
+        font-family: "Roboto", sans-serif;
+        font-style: normal;
+        font-weight: 300;
+        cursor: pointer;
+    }
+
+    .mobile-button:hover {
+        background-color: #FFFFFF;
+    }
+
+    .mobile-selected {
+        background-color: #FFFFFF;
     }
 
     ul {
@@ -123,7 +159,7 @@ const albumTitle: string = "Album Title";
         font-family: "Roboto", sans-serif;
         font-style: normal;
         font-weight: 300;
-        font-size: 20px;
+        font-size: 14px;
     }
 
     .icon-container {
