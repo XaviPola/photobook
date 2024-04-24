@@ -1,5 +1,6 @@
 ---
 import type { MenuSection } from "@types";
+import Button from "@components/UI/Button";
 import Lens from "@components/UI/icons/Lens.astro";
 import Book from "@components/UI/icons/Book.astro";
 import Pictures from "@components/UI/icons/Pictures.astro";
@@ -14,33 +15,51 @@ let menuIcons = {
 
 const albumTitle: string = "Album Title";
 ---
+<div class="main-menu">
+    <aside>
+        <h2>
+            My Albums
+        </h2>
 
-<aside>
-    <h2>
-        My Albums
-    </h2>
-
-    <ul>    
-        <h3>
-            {albumTitle}
-        </h3> 
-        {menuSections.map((section) => {
-            let Icon = menuIcons[section];
-            return (
-            <li>
-                <button>
-                    <div class="icon-container">
-                        <Icon />
-                    </div>
-                    <span>{section}</span>                    
-                </button>
-            </li>
-        )})}
-    </ul>
-
-</aside>
+        <ul>    
+            <h3>
+                {albumTitle}
+            </h3> 
+            {menuSections.map((section) => {
+                let Icon = menuIcons[section];
+                return (
+                <li>
+                    <button>
+                        <div class="icon-container">
+                            <Icon />
+                        </div>
+                        <span>{section}</span>                    
+                    </button>
+                </li>
+            )})}
+        </ul>
+    </aside>
+    <div class="mobile">
+        <div>
+            <h3>My Albums / </h3>
+            <h2>{albumTitle}</h2>
+        </div>
+        <div class="sectionsAndActions">
+            <div class="menu">
+                <button>Album</button>
+                <button>Photos</button>
+                <button>Settings</button>
+            </div>
+            <Button copy="Preview Album" href="/Preview" />
+        </div>
+    </div>
+</div>
 
 <style>
+    .main-menu {
+        width: 100%;
+        height: 100%;
+    }
     aside {
         width: 225px;
         height: 100%;
@@ -51,24 +70,26 @@ const albumTitle: string = "Album Title";
         border-right: 1px solid #E5E5E5;
     }
 
-    @media (max-width: 800px) {
-        aside {
-            display: none;
-        }
-        
-    }
-
-    aside h2 {
+    h2 {
         font-size: 32px;
         font-weight: 300;
         margin: 0;
         gap: 18px;
     }
 
-    aside h3 {
+    h3 {
         font-size: 24px;
         font-weight: 500;
         margin: 0;
+    }
+
+    .mobile h2 {
+        font-size: 16px;
+        gap: 0;
+    }
+
+    .mobile h3 {
+        font-size: 16px;
     }
 
     button {
@@ -109,6 +130,45 @@ const albumTitle: string = "Album Title";
         width: 24px;
         height: 24px;
         resize: both;
+    }
+
+    .mobile {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .menu {
+        display: flex;
+        gap: 10px;
+        background-color: whitesmoke;
+        border-radius: 6px;
+        padding: 5px;
+    }
+    
+    .sectionsAndActions {
+        position: sticky;
+        top: 6px;
+        gap: 12px;
+        display: flex;
+        align-items: center;
+        height: 40px;
+        width: auto;
+    }
+
+    @media (max-width: 768px) {
+        aside {
+            display: none;
+        }
+    }
+
+    @media (min-width: 768px) {
+        .mobile {
+            display: none;
+        }
     }
 
 </style>
