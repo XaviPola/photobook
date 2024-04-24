@@ -1,5 +1,5 @@
 ---
-import Button from "@components/UI/Button.astro";
+import Button from "@components/UI/Button";
 const albumTitle: string = "Album Title";
 ---
 
@@ -10,7 +10,7 @@ const albumTitle: string = "Album Title";
             <h1>PhotoBook</h1>
         </div>
         
-        <Button buttonCopy="Update Album" />
+        <Button copy="Preview Album" href="/Preview" />
     </div>
     <div class="mobile">
         <div class="smallLogo">
@@ -24,7 +24,7 @@ const albumTitle: string = "Album Title";
                 <button>Photos</button>
                 <button>Settings</button>
             </div>
-            <Button buttonCopy="Update Album" />
+            <Button copy="Preview Album" href="/Preview" />
         </div>
     </div>  
 </header>
