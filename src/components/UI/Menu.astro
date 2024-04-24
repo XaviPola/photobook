@@ -31,12 +31,12 @@ const currentSection = Astro.props.section;
                 let Icon = menuIcons[section];
                 return (
                 <li>
-                    <button class={(section === currentSection) ? 'side-selected' : 'side-button' }>
+                    <a href={`/${section}Edit`} class={(section === currentSection) ? 'side-selected' : 'side-button' }>
                         <div class="icon-container">
                             <Icon />
                         </div>
                         <span>{section}</span>                    
-                    </button>
+                    </a>
                 </li>
             )})}
         </ul>
@@ -51,12 +51,12 @@ const currentSection = Astro.props.section;
                 {menuSections.map((section) => {
                     let Icon = menuIcons[section];
                     return (
-                    <button class={(section === currentSection) ? 'mobile-selected' : 'mobile-button' }>
+                    <a href={`/${section}Edit`} class={(section === currentSection) ? 'mobile-selected' : 'mobile-button' }>
                         <div class="icon-container">
                             <Icon />
                         </div>
                         <span>{section}</span>                    
-                    </button>
+                    </a>
                 )})}
             </div>
             <Button copy="Preview Album" href="/Preview" />

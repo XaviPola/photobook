@@ -12,12 +12,14 @@ export interface Picture {
   orderInAlbum: number
 }
 
-const EditPictureBoard: FC = () => {
+interface EditPictureProps {
+  albumId: string
+}
+
+const EditPictureBoard: FC<EditPictureProps> = ({ albumId }) => {
   const [pictures, setPictures] = useState<Picture[]>([])
   const [refresh, setRefresh] = useState(true)
   const [uploader, setUploader] = useState(false)
-
-  const albumId = '1'
 
   useEffect(() => {
     if (pictures.length === 0 || refresh) {

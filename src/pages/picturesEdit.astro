@@ -1,0 +1,13 @@
+---
+import Layout from '@layouts/Layout.astro';
+import SectionContext from '@components/UI/SectionContext.astro';
+import EditPictureBoard from '@components/UI/edit/pictures/Board';
+
+---
+
+<Layout title="PhotoBook, your electronic photo project.">
+    <SectionContext section="pictures">
+        <EditPictureBoard client:visible albumId="1"/>
+    </SectionContext>
+</Layout>
+```
