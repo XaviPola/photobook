@@ -3,7 +3,7 @@ import type { HTMLAttributes, CSSProperties } from 'react'
 import EditPictureCard from './EditPictureCard'
 import ReactDOM from 'react-dom'
 import Button from '@components/UI/Button'
-import DeleteButton from './DeleteButton'
+import DeleteButton from '../../DeleteButton'
 
 export type PictureCardProps = HTMLAttributes<HTMLDivElement> & {
   id: string
