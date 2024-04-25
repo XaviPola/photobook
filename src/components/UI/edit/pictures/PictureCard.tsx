@@ -65,6 +65,7 @@ const PictureCard = forwardRef<HTMLDivElement, PictureCardProps>(
       flexDirection: 'row',
       justifyContent: 'space-between',
       paddingTop: '10px',
+      boxSizing: 'border-box',
       width: '100%',
       height: 'auto',
       gap: '6px'
@@ -74,7 +75,7 @@ const PictureCard = forwardRef<HTMLDivElement, PictureCardProps>(
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'space-between',
-      width: '80%',
+      width: '70%',
       height: '100%',
       gap: '10px'
     }
@@ -87,11 +88,25 @@ const PictureCard = forwardRef<HTMLDivElement, PictureCardProps>(
     }
 
     const inlineTextStyles: CSSProperties = {
+      fontFamily: '"Roboto", sans-serif',
       margin: '0',
       minHeight: '21px',
+      width: '100%',
       whiteSpace: 'nowrap',
       textOverflow: 'ellipsis',
       overflow: 'hidden'
+    }
+
+    const headerTextStyles: CSSProperties = {
+      ...inlineTextStyles,
+      fontSize: '16px',
+      fontWeight: 500
+    }
+
+    const descriptionTextStyles: CSSProperties = {
+      ...inlineTextStyles,
+      fontSize: '14px',
+      fontWeight: 300
     }
 
     const deleteButtonStyles: CSSProperties = {
@@ -130,8 +145,8 @@ const PictureCard = forwardRef<HTMLDivElement, PictureCardProps>(
         </div>
         <div style={contextStyles}>
           <div style={contextTextStyles}>
-            <h3 style={inlineTextStyles}>{title != null ? `${title}` : ''}</h3>
-            <p style={inlineTextStyles}>{description != null ? `${description}` : ''}</p>
+            <h3 style={headerTextStyles}>{title != null ? `${title}` : ''}</h3>
+            <p style={descriptionTextStyles}>{description != null ? `${description}` : ''}</p>
           </div>
           <Button copy='Edit' onClick={openPopup} />
         </div>
