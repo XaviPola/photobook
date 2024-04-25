@@ -2,11 +2,9 @@
 import Layout from '@layouts/Layout.astro';
 import BookPreview from '@components/UI/edit/preview/Preview'
 
-
+const albumId = parseInt(Astro.params.albumId)
 ---
 
 <Layout title="Book Preview">
-  <BookPreview albumId={1} client:visible/>
+  <BookPreview albumId={albumId} client:visible/>
 </Layout>
-
-
