@@ -65,7 +65,7 @@ const Page: React.FC<PageProps> = ({ path, title, description }) => {
 
   return (
     <div style={coverStyles}>
-      <img src={path} style={imgStyles} />
+      <img src={`../${path}`} style={imgStyles} />
       <div style={contextStyles}>
         <h1 style={titleStyles}>{title}</h1>
         <p style={descriptionStyles}>{description}</p>

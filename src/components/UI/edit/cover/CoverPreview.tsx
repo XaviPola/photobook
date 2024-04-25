@@ -86,9 +86,8 @@ const CoverPreview: React.FC<CoverPreviewProps> = ({ title, author, fontColor, b
     alignItems: 'center',
     justifyContent: 'space-between',
     gap: '30px',
-    width: '100%',
-    height: '100%',
-    aspectRatio: '1.4:1',
+    maxWidth: '85vh',
+    aspectRatio: '1 / 1.2',
     borderRadius: '8px',
     boxShadow: '0 0 20px rgba(0, 0, 0, 0.1)',
     boxSizing: 'border-box',
@@ -106,7 +105,7 @@ const CoverPreview: React.FC<CoverPreviewProps> = ({ title, author, fontColor, b
 
   const imgStyles: CSSProperties = {
     width: '80%',
-    height: '80%',
+    aspectRatio: '1',
     minWidth: '30vh',
     cursor: 'grab'
   }
@@ -128,7 +127,7 @@ const CoverPreview: React.FC<CoverPreviewProps> = ({ title, author, fontColor, b
           )
         : (
           <img
-            src={imgPath} style={imgStyles}
+            src={`../${imgPath}`} style={imgStyles}
           />
           )}
 

@@ -12,6 +12,16 @@ export class AlbumController {
     }
   }
 
+  static async getAlbumsCovers (req: Request, res: Response): Promise<void> {
+    try {
+      const { userId } = req.params
+      const albums = await AlbumsModel.getAllWithCover({ userId: parseInt(userId) })
+      res.json(albums)
+    } catch (err) {
+      res.status(500).json({ error: 'Failed to fetch albums', details: err })
+    }
+  }
+
   static async getAlbum (req: Request, res: Response): Promise<void> {
     const { albumId } = req.params
     try {
@@ -28,8 +38,8 @@ export class AlbumController {
       const author = req.body.author
       const description = req.body.description
       const userId = req.body.userId
-      await AlbumsModel.create({ title, author, description, userId })
-      res.json({ success: true })
+      const albumId = await AlbumsModel.create({ title, author, description, userId })
+      res.json({ success: true, albumId })
     } catch (err) {
       res.status(500).json({ error: 'Failed to create album', details: err })
     }

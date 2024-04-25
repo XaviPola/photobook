@@ -37,6 +37,16 @@ export class CoversController {
     }
   }
 
+  static async getAllCovers (req: Request, res: Response): Promise<void> {
+    const { userId } = req.params
+    try {
+      const covers = await CoversModel.getAll({ userId: parseInt(userId) })
+      res.json(covers)
+    } catch (err) {
+      res.status(500).json({ error: 'Failed to fetch covers', details: err })
+    }
+  }
+
   static async updateImageCover (req: Request, res: Response): Promise<void> {
     upload(req, res, (err): void => {
       if (err !== undefined && err !== null) {

@@ -1,31 +1,12 @@
 ---
-import Button from "@components/UI/Button";
-const albumTitle: string = "Album Title";
 ---
 
 <header>
     <div class="wide-screen">
-        <div class="bigLogo">
+        <a class="bigLogo" href="/">
             <img src="/logo3.png" alt="PhotoBook Logo" />
             <h1>PhotoBook</h1>
-        </div>
-        
-        <Button copy="Preview Album" href="/Preview" />
-    </div>
-    <div class="mobile">
-        <div class="smallLogo">
-            <img src="/logo3.png" alt="PhotoBook Logo" />
-            <h3>PhotoBook / My Albums / {albumTitle}</h3>
-        </div>
-    
-        <div class="sectionsAndActions">
-            <div class="menu">
-                <button>Album</button>
-                <button>Photos</button>
-                <button>Settings</button>
-            </div>
-            <Button copy="Preview Album" href="/Preview" />
-        </div>
+        </a>        
     </div>  
 </header>
 
@@ -38,13 +19,6 @@ const albumTitle: string = "Album Title";
         align-items: center;
         gap: 10px;
     }
-    
-    .smallLogo {
-        display: flex;
-        justify-content: left;
-        align-items: center;
-        gap: 10px;
-    }
 
     .wide-screen {
         display: flex;
@@ -54,64 +28,4 @@ const albumTitle: string = "Album Title";
         width: 100%;
     }
 
-    .sectionsAndActions {
-        position: sticky;
-        top: 6px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        height: 40px;
-        width: 100%;
-    }
-
-    .mobile {
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-    }
-
-    .menu {
-        display: flex;
-        gap: 10px;
-        background-color: whitesmoke;
-        border-radius: 6px;
-        padding: 5px;
-    }
-
-    button {
-        background-color: transparent;
-        border: none;
-        border-radius: 6px;
-        padding: 4px;
-        font-family: "Roboto", sans-serif;
-        font-style: normal;
-        font-weight: 300;
-        cursor: pointer;
-    }
-
-    button:hover {
-        background-color: white;
-    }
-
-    @media (max-width: 800px) {
-        .wide-screen {
-            display: none;
-        }
-
-        header {
-            position: sticky;
-            top: 0px;
-            background-color: white;
-        }
-
-        header h3 {
-            margin-top: 12px;
-        }
-    }
-
-    @media (min-width: 801px) {
-        .mobile {
-            display: none;
-        }
-    }
 </style>

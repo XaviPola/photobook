@@ -32,6 +32,28 @@ export class CoversModel {
     }
   }
 
+  static async getAll ({ userId }: { userId: number }): Promise<Covers[] | null > {
+    const [rows] = await connection.query<RowDataPacket[]>(
+      `SELECT album_id, title, author, background_color, font_color, img_path FROM AlbumCovers 
+      INNER JOIN Pictures ON Pictures.id = AlbumCovers.picture_id 
+      INNER JOIN Albums ON Albums.id = AlbumCovers.album_id
+      WHERE user_id = ?;`,
+      [userId]
+    )
+    const covers: Covers[] = rows.map((row: RowDataPacket) => {
+      return {
+        id: row.album_id,
+        title: row.title,
+        author: row.author,
+        imgPath: row.img_path,
+        backgroundColor: row.background_color,
+        fontColor: row.font_color
+      }
+    })
+    if (covers.length === 0) return null
+    return covers
+  }
+
   static async getByAlbumId ({ albumId }: { albumId: number }): Promise<Covers | null> {
     const [rows] = await connection.query<RowDataPacket[]>(
       `SELECT album_id, title, author, background_color, font_color, img_path FROM AlbumCovers 

@@ -1,17 +1,17 @@
 ---
+import Menu from '@components/UI/menus/albumDetail/AlbumMenu.astro';
 import Layout from '@layouts/Layout.astro';
 import SectionContext from '@components/UI/SectionContext.astro';
-import AlbumsGrid from '@components/UI/edit/albums/Albums';
-import MyAlbumsMenu from '@components/UI/menus/albums/MyAlbumsMenu.astro';
+import EditPictureBoard from '@components/UI/edit/pictures/Board';
+
+const {albumId} = Astro.params
 ---
 
 <Layout title="PhotoBook, your electronic photo project.">
-    <SectionContext section="cover">
+    <SectionContext section="pictures" albumId={albumId}>
         <>
-        <div>
-            <MyAlbumsMenu userId={1}/>
-        </div>
-        <div><AlbumsGrid client:visible userId={1}/></div>
+        <div><Menu client:visible section="pictures" albumId={albumId} /></div>
+        <div><EditPictureBoard client:visible albumId={albumId}/></div>
         <style>
             div {
             height: 100%;

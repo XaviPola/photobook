@@ -27,11 +27,13 @@ const ToolBar: React.FC<ToolBarProps> = ({ backgroundColor, fontColor, setBackgr
   const boxStyles: CSSProperties = {
     display: 'flex',
     height: '100%',
+    maxWidth: '85vh',
     flexDirection: 'row',
     gap: '40px',
     borderRadius: '8px',
     boxShadow: '0 0 20px rgba(0, 0, 0, 0.1)',
     padding: '20px',
+    boxSizing: 'border-box',
     justifyContent: 'center'
   }
 

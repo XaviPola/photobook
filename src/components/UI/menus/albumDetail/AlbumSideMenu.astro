@@ -1,43 +1,48 @@
 ---
 import type { MenuSection } from "@types";
+import AlbumTitle from "../AlbumTitle";
 import Lens from "@components/UI/icons/Lens.astro";
 import Book from "@components/UI/icons/Book.astro";
 import Pictures from "@components/UI/icons/Pictures.astro";
+import PreviewIcon from "../../icons/Preview";
 
-let menuSections: MenuSection[] = ["pictures", "cover", "about"];
+let menuSections: MenuSection[] = ["pictures", "cover", "about", "preview"];
 
 let menuIcons = {
   "about": Lens,
   "cover": Book,
   "pictures": Pictures,
+  'preview': PreviewIcon
 };
 
-const albumTitle: string = "Album Title";
+const albumId: string = Astro.props.albumId;
+const titleStyles = {
+    fontSize: "24px",
+    fontWeight: "500",
+    margin: "0"
+    }
+
+const currentSection = Astro.props.currentSection;
 ---
 
 <aside>
-    <h2>
-        My Albums
-    </h2>
+    <a href="/albums/1">My Albums / </a>
 
     <ul>    
-        <h3>
-            {albumTitle}
-        </h3> 
+        <AlbumTitle albumId={albumId} styles={titleStyles} client:visible />
         {menuSections.map((section) => {
             let Icon = menuIcons[section];
             return (
             <li>
-                <button>
+                <a href={`/${section}/${albumId}`} class={(section === currentSection) ? 'side-selected' : 'side-button' }>
                     <div class="icon-container">
                         <Icon />
                     </div>
                     <span>{section}</span>                    
-                </button>
+                </a>
             </li>
         )})}
     </ul>
-
 </aside>
 
 <style>
@@ -51,27 +56,14 @@ const albumTitle: string = "Album Title";
         border-right: 1px solid #E5E5E5;
     }
 
-    @media (max-width: 800px) {
-        aside {
-            display: none;
-        }
-        
-    }
-
-    aside h2 {
+    a {
         font-size: 32px;
         font-weight: 300;
         margin: 0;
         gap: 18px;
     }
 
-    aside h3 {
-        font-size: 24px;
-        font-weight: 500;
-        margin: 0;
-    }
-
-    button {
+    .side-button, .side-selected {
         width: 100%;
         display: flex;
         align-items: center;
@@ -80,9 +72,10 @@ const albumTitle: string = "Album Title";
         background: none;
         padding: 6px;
         border-radius: 6px;
+        cursor: pointer;
     }
 
-    button:hover {
+    .side-button:hover, .side-selected {
         background-color: #F5F5F5;
     }
 
@@ -95,20 +88,27 @@ const albumTitle: string = "Album Title";
     
     li {
         gap: 18px;
+        margin: 6px;
     }
 
-    button span {
+    .side-button span, .side-selected span {
         text-transform: capitalize;
         font-family: "Roboto", sans-serif;
         font-style: normal;
         font-weight: 300;
-        font-size: 20px;
+        font-size: 14px;
     }
 
     .icon-container {
         width: 24px;
         height: 24px;
         resize: both;
+    }
+
+    @media (max-width: 768px) {
+        aside {
+            display: none;
+        }
     }
 
 </style>
