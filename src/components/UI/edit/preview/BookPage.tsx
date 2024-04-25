@@ -34,7 +34,7 @@ const Page: React.FC<PageProps> = ({ path, title, description }) => {
     opacity: 1
   }
 
-  const coverStyles: CSSProperties = {
+  const pageStyles: CSSProperties = {
     fontSize: '1vw',
     display: 'flex',
     flexDirection: 'column',
@@ -44,6 +44,7 @@ const Page: React.FC<PageProps> = ({ path, title, description }) => {
     height: '100%',
     boxSizing: 'border-box',
     padding: '6% 3%',
+    boxShadow: '0 0 20px rgba(0, 0, 0, 0.1)',
     backgroundColor: 'white'
   }
 
@@ -64,7 +65,7 @@ const Page: React.FC<PageProps> = ({ path, title, description }) => {
   }
 
   return (
-    <div style={coverStyles}>
+    <div style={pageStyles}>
       <img src={`../${path}`} style={imgStyles} />
       <div style={contextStyles}>
         <h1 style={titleStyles}>{title}</h1>

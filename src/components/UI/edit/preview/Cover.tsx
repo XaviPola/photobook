@@ -38,6 +38,7 @@ const Cover: React.FC<CoverProps> = ({ imgPath, title, author, backgroundColor, 
     width: '100%',
     height: '100%',
     boxSizing: 'border-box',
+    boxShadow: '0 0 20px rgba(0, 0, 0, 0.1)',
     padding: '6% 3%',
     backgroundColor
   }
