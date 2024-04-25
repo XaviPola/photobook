@@ -26,7 +26,8 @@ export class PicturesModel {
       `SELECT P.id, P.img_path AS path, AP.title, AP.description, AP.order_in_album AS orderInAlbum
       FROM Pictures AS P
       INNER JOIN AlbumPictures AS AP ON P.id = AP.picture_id
-      WHERE AP.album_id = ?;`,
+      WHERE AP.album_id = ?
+      ORDER BY AP.order_in_album ASC;`,
       [albumId]
     )
 
