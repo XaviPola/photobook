@@ -39,7 +39,8 @@ const BookPreview: React.FC<BookPreviewProps> = ({ albumId }) => {
     alignContent: 'center',
     alignItems: 'center',
     margin: 0,
-    padding: 0
+    padding: 0,
+    marginTop: '24px'
   }
 
   const closePreviewStyles: React.CSSProperties = {
