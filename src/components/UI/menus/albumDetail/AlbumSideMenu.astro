@@ -1,0 +1,114 @@
+---
+import type { MenuSection } from "@types";
+import AlbumTitle from "../AlbumTitle";
+import Lens from "@components/UI/icons/Lens.astro";
+import Book from "@components/UI/icons/Book.astro";
+import Pictures from "@components/UI/icons/Pictures.astro";
+import PreviewIcon from "../../icons/Preview";
+
+let menuSections: MenuSection[] = ["pictures", "cover", "about", "preview"];
+
+let menuIcons = {
+  "about": Lens,
+  "cover": Book,
+  "pictures": Pictures,
+  'preview': PreviewIcon
+};
+
+const albumId: string = Astro.props.albumId;
+const titleStyles = {
+    fontSize: "24px",
+    fontWeight: "500",
+    margin: "0"
+    }
+
+const currentSection = Astro.props.currentSection;
+---
+
+<aside>
+    <a href="/albums/1">My Albums / </a>
+
+    <ul>    
+        <AlbumTitle albumId={albumId} styles={titleStyles} client:visible />
+        {menuSections.map((section) => {
+            let Icon = menuIcons[section];
+            return (
+            <li>
+                <a href={`/${section}/${albumId}`} class={(section === currentSection) ? 'side-selected' : 'side-button' }>
+                    <div class="icon-container">
+                        <Icon />
+                    </div>
+                    <span>{section}</span>                    
+                </a>
+            </li>
+        )})}
+    </ul>
+</aside>
+
+<style>
+    aside {
+        width: 225px;
+        height: 100%;
+        padding-right: 24px;
+        display: inline-block;
+        gap: 12px;
+        justify-content: space-between;
+        border-right: 1px solid #E5E5E5;
+    }
+
+    a {
+        font-size: 32px;
+        font-weight: 300;
+        margin: 0;
+        gap: 18px;
+    }
+
+    .side-button, .side-selected {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        border: none;
+        background: none;
+        padding: 6px;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+
+    .side-button:hover, .side-selected {
+        background-color: #F5F5F5;
+    }
+
+    ul {
+        position: sticky;
+        top: 12px;
+        list-style-type: none;
+        padding: 12px 0 0 24px;
+    }
+    
+    li {
+        gap: 18px;
+        margin: 6px;
+    }
+
+    .side-button span, .side-selected span {
+        text-transform: capitalize;
+        font-family: "Roboto", sans-serif;
+        font-style: normal;
+        font-weight: 300;
+        font-size: 14px;
+    }
+
+    .icon-container {
+        width: 24px;
+        height: 24px;
+        resize: both;
+    }
+
+    @media (max-width: 768px) {
+        aside {
+            display: none;
+        }
+    }
+
+</style>

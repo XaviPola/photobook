@@ -1,0 +1,16 @@
+---
+import Menu from "@components/UI/menus/Menu.astro";
+import MobileMenu from "@components/UI/menus/albums/MyAlbumsMobileMenu.astro";
+import SideMenu from "@components/UI/menus/albums/MyAlbumsSideMenu.astro";
+
+const albumTitle: string = "Album Title";
+
+const currentSection = Astro.props.section
+const albumId = Astro.props.albumId
+---
+<Menu>
+    <>
+        <SideMenu albumId={albumId} albumTitle={albumTitle} currentSection={currentSection} />
+        <MobileMenu albumId={albumId} albumTitle={albumTitle} currentSection={currentSection} />
+    </>
+<Menu />

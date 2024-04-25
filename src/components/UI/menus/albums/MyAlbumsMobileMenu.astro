@@ -1,0 +1,96 @@
+---
+import type { MenuSection } from "@types"
+import AlbumTitle from "@components/UI/menus/AlbumTitle.tsx"
+import Lens from "@components/UI/icons/Lens.astro"
+import Book from "@components/UI/icons/Book.astro"
+import Pictures from "@components/UI/icons/Pictures.astro"
+import PreviewIcon from "../../icons/Preview"
+
+let menuSections: MenuSection[] = ["pictures", "cover", "about", "preview"];
+
+let menuIcons = {
+  "about": Lens,
+  "cover": Book,
+  "pictures": Pictures,
+  'preview': PreviewIcon
+};
+
+const userId = Astro.props.userId
+
+const albumTitleStyles = {
+    fontSize: 16,
+    fontWeight: 500,
+    margin: 0
+}
+---
+<div class="mobile">
+    <div>
+        <a href=`/albums/${userId}`>My Albums / </a>
+    </div>
+</div>
+
+<style>
+    a {
+        font-size: 16px;
+        font-weight: 300;
+        margin: 0;
+        gap: 0;
+    }
+
+    .mobile {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .mobile-button, .mobile-selected {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        background-color: transparent;
+        border: none;
+        border-radius: 6px;
+        padding: 4px;
+        font-family: "Roboto", sans-serif;
+        font-style: normal;
+        font-weight: 300;
+        cursor: pointer;
+    }
+
+    .mobile-selected, .mobile-button:hover {
+        background-color: #FFFFFF;
+    }
+
+    .icon-container {
+        width: 24px;
+        height: 24px;
+        resize: both;
+    }
+
+    .menu {
+        display: flex;
+        gap: 10px;
+        background-color: whitesmoke;
+        border-radius: 6px;
+        padding: 5px;
+    }
+    
+    .sectionsAndActions {
+        position: sticky;
+        top: 6px;
+        gap: 12px;
+        display: flex;
+        align-items: center;
+        height: 40px;
+        width: auto;
+    }
+
+    @media (min-width: 768px) {
+        .mobile {
+            display: none;
+        }
+    }
+</style>
