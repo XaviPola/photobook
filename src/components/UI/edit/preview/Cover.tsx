@@ -50,7 +50,7 @@ const Cover: React.FC<CoverProps> = ({ imgPath, title, author, backgroundColor, 
 
   return (
     <div style={coverStyles}>
-      <img src={imgPath} style={imgStyles} />
+      <img src={`../${imgPath}`} style={imgStyles} />
       <h1 style={titleStyles}>{title}</h1>
       <p style={authorStyles}>{author}</p>
     </div>

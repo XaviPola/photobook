@@ -10,6 +10,7 @@ interface CoverEditorProps {
 const CoverEditor: React.FC<CoverEditorProps> = ({ albumId }) => {
   const defaultbackgroundColor = '#000000'
   const defaultFontColor = '#ffffff'
+  console.log('albumId:', albumId)
 
   const [title, setTitle] = useState<string | undefined>()
   const [author, setAuthor] = useState<string | undefined>()
@@ -19,12 +20,14 @@ const CoverEditor: React.FC<CoverEditorProps> = ({ albumId }) => {
   const [imgPath, setImgPath] = useState<string | undefined>()
 
   const createDefaultCover = async (albumId: string): Promise<void> => {
-    axios.post(`http://localhost:1234/covers/${albumId}`, {
+    await axios.post(`http://localhost:1234/covers/${albumId}`, {
       backgroundColor: defaultbackgroundColor,
       fontColor: defaultFontColor
     })
       .then((response) => {
         console.log('Cover created successfully')
+        setBackgroundColor(defaultbackgroundColor)
+        setFontColor(defaultFontColor)
       })
       .catch((error) => {
         console.error(error)
@@ -35,22 +38,29 @@ const CoverEditor: React.FC<CoverEditorProps> = ({ albumId }) => {
     const getSetupCover = async (albumId: string): Promise<void> => {
       await axios.get(`http://localhost:1234/covers/${albumId}`)
         .then((response) => {
+          console.log('response:', response)
+          if (response.data === null) {
+            console.log('Cover not found, creating default cover')
+            void createDefaultCover(albumId)
+            return
+          }
           const { imgPath, title, author, backgroundColor, fontColor } = response.data
+          console.log('Cover found:', imgPath)
           setImgPath(imgPath)
           setBackgroundColor(backgroundColor)
           setFontColor(fontColor)
           setTitle(title)
           setAuthor(author)
         })
-        .catch(async (error) => {
-          if (error.response.status === 404) {
+        .catch((error) => {
+          console.error(error)
+          if (error.response.status === 404 || error.response.status === 500) {
             console.log('Cover not found, creating default cover')
-            await createDefaultCover(albumId)
-            setBackgroundColor(defaultbackgroundColor)
-            setFontColor(defaultFontColor)
+            void createDefaultCover(albumId)
           }
         })
     }
+    console.log('getting cover')
     void getSetupCover(albumId)
   }, [])
 
@@ -146,6 +156,7 @@ const CoverEditor: React.FC<CoverEditorProps> = ({ albumId }) => {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
+    alignItems: 'center',
     gap: '1rem'
   }
 

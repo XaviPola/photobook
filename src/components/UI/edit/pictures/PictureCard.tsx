@@ -126,7 +126,7 @@ const PictureCard = forwardRef<HTMLDivElement, PictureCardProps>(
             <h2 style={imgOrderStyles}>{imgNumberInAlbum}</h2>
             <DeleteButton onClick={handleDeletePicture} extraStyles={deleteButtonStyles} />
           </div>
-          <img src={imgPath} style={inlineImgStyles} />
+          <img src={`../${imgPath}`} style={inlineImgStyles} />
         </div>
         <div style={contextStyles}>
           <div style={contextTextStyles}>
@@ -143,7 +143,7 @@ const PictureCard = forwardRef<HTMLDivElement, PictureCardProps>(
               setTitle={setTitle}
               setDescription={setDescription}
               id={id}
-              imgPath={imgPath}
+              imgPath={`../${imgPath}`}
               imgDescription={description}
               imgTitle={title}
             />,

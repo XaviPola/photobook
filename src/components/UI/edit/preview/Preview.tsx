@@ -4,7 +4,6 @@ import Background from './Background'
 import axios from 'axios'
 import type { CoverProps } from './Cover'
 import type { PageProps } from './BookPage'
-import DeleteButton from '@components/UI/DeleteButton'
 import CloseIcon from '@components/UI/icons/Close'
 
 interface BookPreviewProps {
