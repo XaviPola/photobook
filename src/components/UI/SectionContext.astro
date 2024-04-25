@@ -1,22 +1,19 @@
 ---
-import SideMenu from '@components/UI/Menu.astro';
 import Header from '@components/UI/Header.astro';
-
-const section = Astro.props.section;
 ---
 
 <div class="container">
-    <div class="header"><Header /></div>
-    <div><SideMenu section={section}/></div>
-    <div>
-        <slot></slot>
+    <div class="header">
+        <Header />
     </div>
+    <slot></slot>
+    <div class="empty"></div>
 </div>
 
 <style>
     .container {
         display: grid;
-        grid-template-columns: 298px 1fr;
+        grid-template-columns: 298px 1fr 250px;
         grid-template-rows: 10vh 90vh;
         justify-content: space-between;
         box-sizing: border-box;
@@ -28,10 +25,25 @@ const section = Astro.props.section;
         box-sizing: border-box;
     }
 
+    .emtpy {
+        grid-column: 3;
+        grid-row: 2;
+    }
+
     .header {
         
-        grid-column: 1 / span 2;
+        grid-column: 1 / span 3;
         grid-row: 1;
+    }
+
+    @media (max-width: 1000px) {
+        .container {
+            grid-template-columns: 298px 1fr;
+            grid-template-rows: 10vh 90vh;
+        }
+        .empty {
+            display: none;
+        }
     }
 
     @media (max-width: 768px) {
@@ -44,4 +56,5 @@ const section = Astro.props.section;
             grid-row: 1;
         }
     }
+    
 </style>
