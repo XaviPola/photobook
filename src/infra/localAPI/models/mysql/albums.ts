@@ -9,6 +9,12 @@ interface Album {
   userId?: number
 }
 
+interface AlbumAndCover extends Album {
+  imgPath?: string
+  backgroundColor?: string
+  fontColor?: string
+}
+
 const DEFAULT_CONFIG = {
   host: 'localhost',
   user: 'root',
@@ -20,6 +26,37 @@ const DEFAULT_CONFIG = {
 const albumsConnection = await mysql.createConnection(DEFAULT_CONFIG)
 
 export class AlbumsModel {
+  static async getAllWithCover ({ userId }: { userId: number }): Promise<AlbumAndCover[] | null> {
+    if (userId !== 0) {
+      const [rows] = await albumsConnection.query<RowDataPacket[]>(
+        `SELECT Albums.id, title, author, description, user_id, img_path, background_color, font_color 
+        FROM Albums 
+        LEFT JOIN AlbumCovers ON Albums.id = AlbumCovers.album_id 
+        LEFT JOIN Pictures ON AlbumCovers.picture_id = Pictures.id
+        WHERE user_id = ?;`,
+        [userId]
+      )
+      console.log(userId)
+      console.log(rows)
+
+      const albumsAndCovers: AlbumAndCover[] = rows.map((row: RowDataPacket) => {
+        return {
+          id: row.id,
+          title: row.title,
+          author: row.author,
+          description: row.description,
+          backgroundColor: row.background_color,
+          fontColor: row.font_color,
+          imgPath: row.img_path
+        }
+      })
+
+      if (albumsAndCovers.length === 0) return null
+      return albumsAndCovers
+    }
+    return null
+  }
+
   static async getAll ({ userId }: { userId: number }): Promise<Album[] | null> {
     if (userId !== 0) {
       const [rows] = await albumsConnection.query<RowDataPacket[]>(
@@ -69,13 +106,14 @@ export class AlbumsModel {
     userId: number
     description?: string
     author?: string
-  }): Promise<void> {
+  }): Promise<number> {
     try {
-      await albumsConnection.query<ResultSetHeader>(
+      const results = await albumsConnection.query<ResultSetHeader>(
         `INSERT INTO Albums (title, author, description, user_id)
           VALUES (?, ?, ?, ?);`,
         [title, author, description, userId]
       )
+      return results[0].insertId
     } catch (e) {
       throw new Error('Error creating Album')
     }
