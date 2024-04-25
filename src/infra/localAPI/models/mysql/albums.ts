@@ -122,6 +122,24 @@ export class AlbumsModel {
   static async delete ({ id }: { id: number }): Promise<void> {
     try {
       await albumsConnection.query(
+        'DELETE FROM AlbumPictures WHERE album_id = ?;',
+        [id]
+      )
+    } catch (e) {
+      throw new Error('Error deleting album pictures')
+    }
+
+    try {
+      await albumsConnection.query(
+        'DELETE FROM AlbumCovers WHERE album_id = ?;',
+        [id]
+      )
+    } catch (e) {
+      throw new Error('Error deleting album cover')
+    }
+
+    try {
+      await albumsConnection.query(
         'DELETE FROM Albums WHERE id = ?;',
         [id]
       )
