@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react'
+import BackCover from './BackCover'
+import type BackCoverProps from './BackCover'
 import Cover from './Cover'
 import type CoverProps from './Cover'
 import Page from './BookPage'
@@ -9,13 +11,14 @@ import BeforeIcon from '@components/UI/icons/Before'
 interface BookProps {
   bookCover: typeof CoverProps
   bookPages: Array<typeof PageProps>
+  bookBackCover: typeof BackCoverProps
 }
 
-const Book: React.FC<BookProps> = ({ bookCover, bookPages }) => {
+const Book: React.FC<BookProps> = ({ bookCover, bookPages, bookBackCover }) => {
   const [currentPage, setCurrentPage] = useState(-1)
-
+  const coverBackIndex: number = bookPages.length
   const handleNextPage = (): void => {
-    if (currentPage < bookPages.length - 1) {
+    if (currentPage < coverBackIndex) {
       setCurrentPage(currentPage + 1)
     }
   }
@@ -75,9 +78,11 @@ const Book: React.FC<BookProps> = ({ bookCover, bookPages }) => {
       </div>
       {(currentPage === -1)
         ? <Cover {...bookCover} />
-        : <Page {...bookPages[currentPage]} />}
+        : (currentPage === coverBackIndex)
+            ? <BackCover {...bookBackCover} />
+            : <Page {...bookPages[currentPage]} />}
       <div style={buttonContainerStyles}>
-        {(currentPage < bookPages.length - 1) ? <button style={buttonStyles} onClick={handleNextPage}><NextIcon /></button> : <></>}
+        {(currentPage < bookPages.length) ? <button style={buttonStyles} onClick={handleNextPage}><NextIcon /></button> : <></>}
       </div>
     </div>
   )
