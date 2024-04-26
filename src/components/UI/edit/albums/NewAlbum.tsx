@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import type { CSSProperties } from 'react'
 import axios from 'axios'
 
@@ -7,7 +7,6 @@ interface NewAlbumCardProps {
 }
 
 const NewAlbumCard = ({ userId }: NewAlbumCardProps): React.AnchorHTMLAttributes<HTMLAnchorElement> => {
-  const [id, setId] = useState<number>(0)
   const onClickHandler = (): void => {
     axios.post('http://localhost:1234/albums/', {
       userId,
@@ -16,18 +15,18 @@ const NewAlbumCard = ({ userId }: NewAlbumCardProps): React.AnchorHTMLAttributes
       description: 'New Description'
     }).then((response) => {
       console.log(response.data)
-      const albumId = response.data.albumId
-      setId(albumId)
+      const albumId: string = response.data.albumId
+      console.log('albumId:', albumId)
+      window.location.href = `/cover/${albumId}`
     }).catch((error) => {
       console.error(error)
     }
     )
   }
 
-  const albumContainerStyles: CSSProperties = {
+  const newCardStyles: CSSProperties = {
     width: '100%',
-    height: '100%',
-    aspectRatio: '1',
+    aspectRatio: '1 / 1.5',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -55,9 +54,9 @@ const NewAlbumCard = ({ userId }: NewAlbumCardProps): React.AnchorHTMLAttributes
   }
 
   return (
-    <a href={`/cover/${id}`} onClick={onClickHandler} style={albumContainerStyles}>
+    <button onClick={onClickHandler} style={newCardStyles}>
       <h1 style={titleStyles}>Click here to add a New Album</h1>
-    </a>
+    </button>
   )
 }
 

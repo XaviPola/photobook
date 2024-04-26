@@ -8,12 +8,12 @@ const albumId = Astro.params.albumId
 ---
 
 <Layout title="PhotoBook, your electronic photo project.">
-    <SectionContext section="cover" albumId={albumId}>
+    <SectionContext>
         <>
             <div>
                 <Menu client:visible section="cover" albumId={albumId} />
             </div>
-            <div>
+            <div style={{ height: '100%' }}>
                 <CoverEditor client:visible albumId={albumId} />
             </div>
             <style>

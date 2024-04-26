@@ -26,8 +26,8 @@ const ToolBar: React.FC<ToolBarProps> = ({ backgroundColor, fontColor, setBackgr
 
   const boxStyles: CSSProperties = {
     display: 'flex',
-    height: '100%',
-    maxWidth: '85vh',
+    height: 'auto',
+    maxWidth: '65vh',
     flexDirection: 'row',
     gap: '40px',
     borderRadius: '8px',

@@ -7,11 +7,11 @@ export type ButtonProps = HTMLAttributes<HTMLButtonElement> & {
   extraStyles?: CSSProperties
 }
 
-const BasicButtonComponent = ({ element, onClick, extraStyles }: ButtonProps) => {
+const BasicButtonComponent = ({ element, onClick, extraStyles }: ButtonProps): React.ReactHTMLElement<HTMLButtonElement> => {
   const [hover, setHover] = React.useState(false)
   const [clicked, setClicked] = React.useState(false)
 
-  const onClickHandler = () => {
+  const onClickHandler = (): void => {
     setClicked(false)
     if (onClick != null) {
       onClick()
