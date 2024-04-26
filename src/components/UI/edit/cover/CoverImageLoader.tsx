@@ -18,11 +18,14 @@ const ImageLoader: React.FC<ImageLoaderProps> = ({ setCoverPicture }): ReactElem
   }
 
   const labelStyles: CSSProperties = {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
     textTransform: 'capitalize',
     fontFamily: '"Roboto", sans-serif',
     fontStyle: 'normal',
     fontWeight: 300,
-    fontSize: '20px',
+    fontSize: '14px',
     margin: 0
   }
 

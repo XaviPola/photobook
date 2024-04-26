@@ -20,7 +20,7 @@ const CoverEditor: React.FC<CoverEditorProps> = ({ albumId }) => {
   const [imgPath, setImgPath] = useState<string | undefined>()
 
   const createDefaultCover = async (albumId: string): Promise<void> => {
-    await axios.post(`http://localhost:1234/covers/${albumId}`, {
+    axios.post(`http://localhost:1234/covers/${albumId}`, {
       backgroundColor: defaultbackgroundColor,
       fontColor: defaultFontColor
     })
@@ -153,6 +153,7 @@ const CoverEditor: React.FC<CoverEditorProps> = ({ albumId }) => {
 
   const displayStyles: React.CSSProperties = {
     width: '100%',
+    height: '90vh',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',

@@ -6,13 +6,18 @@ interface Album {
   title?: string
   author?: string
   description?: string
-  userId?: number
 }
 
 interface AlbumAndCover extends Album {
   imgPath?: string
   backgroundColor?: string
   fontColor?: string
+}
+
+interface AlbumAbout extends Album {
+  imgPath?: string
+  aboutAuthor?: string
+  backgroundColor?: string
 }
 
 const DEFAULT_CONFIG = {
@@ -53,6 +58,35 @@ export class AlbumsModel {
 
       if (albumsAndCovers.length === 0) return null
       return albumsAndCovers
+    }
+    return null
+  }
+
+  static async getAbout ({ albumId }: { albumId: number }): Promise<AlbumAbout | null> {
+    if (albumId > 0) {
+      const [rows] = await albumsConnection.query<RowDataPacket[]>(
+        `SELECT Albums.id, title, author, description, img_path, about_author, background_color
+        FROM Albums 
+        LEFT JOIN About ON Albums.id = About.album_id 
+        LEFT JOIN Pictures ON About.author_picture_id = Pictures.id 
+        LEFT JOIN AlbumCovers ON Albums.id = AlbumCovers.album_id
+        WHERE Albums.id = ?;`,
+        [albumId]
+      )
+
+      if (rows.length === 0) return null
+
+      const albumAbout: AlbumAbout = {
+        id: rows[0].id,
+        title: rows[0].title,
+        author: rows[0].author,
+        description: rows[0].description,
+        imgPath: rows[0].img_path,
+        aboutAuthor: rows[0].about_author,
+        backgroundColor: rows[0].background_color
+      }
+
+      return albumAbout
     }
     return null
   }
@@ -140,6 +174,15 @@ export class AlbumsModel {
 
     try {
       await albumsConnection.query(
+        'DELETE FROM About WHERE album_id = ?;',
+        [id]
+      )
+    } catch (e) {
+      throw new Error('Error deleting album about')
+    }
+
+    try {
+      await albumsConnection.query(
         'DELETE FROM Albums WHERE id = ?;',
         [id]
       )
@@ -183,6 +226,56 @@ export class AlbumsModel {
       )
     } catch (e) {
       throw new Error('Error updating album')
+    }
+  }
+
+  static async updateAuthorImage ({ albumId, imgPath }: { albumId: number, imgPath: string }): Promise<void> {
+    try {
+      const [result] = await albumsConnection.query<ResultSetHeader>(
+        'INSERT INTO Pictures (img_path) VALUES (?);',
+        [imgPath]
+      )
+      const pictureId = result.insertId
+      console.log('Picture ID:', pictureId)
+      console.log('Img Path:', imgPath)
+
+      await albumsConnection.query<ResultSetHeader>(
+        'UPDATE About SET author_picture_id = ? WHERE album_id = ?;',
+        [pictureId, albumId]
+      )
+    } catch (error) {
+      console.error(error)
+      throw new Error('Error updating cover image')
+    }
+  }
+
+  static async updateAbout ({ albumId, aboutAuthor }: {
+    albumId: number
+    aboutAuthor: string
+  }): Promise<void> {
+    try {
+      await albumsConnection.query<ResultSetHeader>(
+        'UPDATE About SET about_author = ? WHERE album_id = ?;',
+        [aboutAuthor, albumId]
+      )
+      console.log('About Author updated successfully')
+      console.log('About Author:', aboutAuthor)
+    } catch (e) {
+      console.error(e)
+      throw new Error('Error updating About')
+    }
+  }
+
+  static async createAbout ({ albumId }: {
+    albumId: number
+  }): Promise<void> {
+    try {
+      await albumsConnection.query<ResultSetHeader>(
+        'INSERT INTO About (album_id) VALUES (?);',
+        [albumId]
+      )
+    } catch (e) {
+      throw new Error('Error creating About')
     }
   }
 

@@ -14,7 +14,13 @@ const AlbumsGrid: React.FC<AlbumsProps> = ({ userId }) => {
 
   useEffect(() => {
     axios.get(`http://localhost:1234/albums/covers/user/${userId}`).then(
-      (response) => setAlbums(response.data)
+      (response) => {
+        const loadedAlbums = response.data
+        if (loadedAlbums === null) {
+          return
+        }
+        setAlbums(response.data)
+      }
     ).catch((error) => console.error(error))
   }, [userId])
 

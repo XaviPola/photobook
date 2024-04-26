@@ -4,6 +4,7 @@ import Background from './Background'
 import axios from 'axios'
 import type { CoverProps } from './Cover'
 import type { PageProps } from './BookPage'
+import type { BackCoverProps } from './BackCover'
 import CloseIcon from '@components/UI/icons/Close'
 
 interface BookPreviewProps {
@@ -21,12 +22,19 @@ const BookPreview: React.FC<BookPreviewProps> = ({ albumId }) => {
     return response.data
   }
 
+  const getBookBackCover = async (albumId: number): Promise<BackCoverProps> => {
+    const response = await axios.get(`http://localhost:1234/albums/about/${albumId}`)
+    return response.data
+  }
+
   const [bookCover, setBookCover] = useState<CoverProps>()
   const [bookPages, setBookPages] = useState<PageProps[]>([])
+  const [bookBackCover, setBookBackCover] = useState<CoverBackProps>()
 
   useEffect(() => {
     getBookCover(albumId).then((cover) => setBookCover(cover)).catch((error) => console.error(error))
     getAllPictures(albumId).then((pages) => setBookPages(pages)).catch((error) => console.error(error))
+    getBookBackCover(albumId).then((backCover) => setBookBackCover(backCover)).catch((error) => console.error(error))
   }, [albumId])
 
   const goBack = (): void => {
@@ -70,7 +78,7 @@ const BookPreview: React.FC<BookPreviewProps> = ({ albumId }) => {
         <button style={buttonStyles} onClick={goBack}><CloseIcon /></button>
       </div>
       <Background color={bookCover?.fontColor} />
-      <Book bookCover={bookCover} bookPages={bookPages} />
+      <Book bookCover={bookCover} bookPages={bookPages} bookBackCover={bookBackCover} />
     </div>
   )
 }

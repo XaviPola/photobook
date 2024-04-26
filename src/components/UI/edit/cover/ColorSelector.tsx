@@ -9,11 +9,14 @@ interface ColorSelectorProps {
 
 const ColorSelector: React.FC<ColorSelectorProps> = ({ colorCopy, colorInitialValue, onColorChange }) => {
   const labelStyles: CSSProperties = {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
     textTransform: 'capitalize',
     fontFamily: '"Roboto", sans-serif',
     fontStyle: 'normal',
     fontWeight: 300,
-    fontSize: '20px'
+    fontSize: '14px'
   }
 
   const inputStyles: CSSProperties = {

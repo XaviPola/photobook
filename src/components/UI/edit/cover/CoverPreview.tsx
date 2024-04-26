@@ -49,7 +49,7 @@ const CoverPreview: React.FC<CoverPreviewProps> = ({ title, author, fontColor, b
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    width: 'auto',
+    width: '80%',
     minWidth: '30vh',
     aspectRatio: '1'
   }
@@ -71,12 +71,12 @@ const CoverPreview: React.FC<CoverPreviewProps> = ({ title, author, fontColor, b
 
   const authorStyles: CSSProperties = {
     ...inputStyles,
-    fontSize: '250%'
+    fontSize: '150%'
   }
 
   const titleStyles: CSSProperties = {
     ...inputStyles,
-    fontSize: '500%'
+    fontSize: '250%'
   }
 
   const coverStyles: CSSProperties = {
@@ -86,8 +86,9 @@ const CoverPreview: React.FC<CoverPreviewProps> = ({ title, author, fontColor, b
     alignItems: 'center',
     justifyContent: 'space-between',
     gap: '30px',
-    maxWidth: '85vh',
-    aspectRatio: '1 / 1.2',
+    maxHeight: '75vh',
+    minHeight: '400px',
+    aspectRatio: '1 / 1.4',
     borderRadius: '8px',
     boxShadow: '0 0 20px rgba(0, 0, 0, 0.1)',
     boxSizing: 'border-box',
@@ -100,7 +101,7 @@ const CoverPreview: React.FC<CoverPreviewProps> = ({ title, author, fontColor, b
     fontFamily: '"Roboto", sans-serif',
     fontStyle: 'normal',
     fontWeight: 300,
-    fontSize: '20px'
+    fontSize: '14px'
   }
 
   const imgStyles: CSSProperties = {

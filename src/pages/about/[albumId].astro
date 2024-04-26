@@ -2,19 +2,18 @@
 import Menu from '@components/UI/menus/albumDetail/AlbumMenu.astro';
 import Layout from '@layouts/Layout.astro';
 import SectionContext from '@components/UI/SectionContext.astro';
-import CoverEditor from '@components/UI/edit/cover/CoverEditor';
-
+import AboutEditor from '@components/UI/edit/about/AboutEditor';
 const albumId = Astro.params.albumId
 ---
 
 <Layout title="PhotoBook, your electronic photo project.">
-    <SectionContext>
+    <SectionContext section="cover" albumId={albumId}>
         <>
             <div>
                 <Menu client:visible section="cover" albumId={albumId} />
             </div>
-            <div style={{ height: '100%' }}>
-                <CoverEditor client:visible albumId={albumId} />
+            <div>
+                <AboutEditor client:visible albumId={albumId} />
             </div>
             <style>
                 div {
