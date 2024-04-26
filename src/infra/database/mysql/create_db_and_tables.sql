@@ -49,3 +49,12 @@ CREATE TABLE AlbumCovers (
     FOREIGN KEY (picture_id) REFERENCES Pictures(id),
     PRIMARY KEY (album_id)
 );
+
+CREATE TABLE About (
+	album_id INT NOT NULL,
+	about_author TEXT,
+	author_picture_id INT,
+	FOREIGN KEY (album_id) REFERENCES Albums(id),
+	FOREIGN KEY (author_picture_id) REFERENCES Pictures(id),
+	PRIMARY KEY (album_id)
+);
